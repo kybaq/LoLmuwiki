@@ -15,13 +15,13 @@ const Stmodal = styled.section`
   transform: translate(-50%, -50%); // x, y 모두 -50% 만큼
 `;
 
-function PostViewModal({ post }) {
+const PostViewModal = ({ post }) => {
   return (
     <Stmodal>
       <div>Title</div>
       <div>{post.content}</div>
     </Stmodal>
   );
-}
+};
 
 export default PostViewModal;
