@@ -1,6 +1,6 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PostsList from '../components/PostsList';
 
 const Sth5 = styled.h5`
   border: 2px solid black;
@@ -8,11 +8,14 @@ const Sth5 = styled.h5`
 `;
 
 function MainPage() {
+  // h5 클릭 시 게시글 작성 페이지로 이동
   const navigation = useNavigate();
 
   const onHandleClickSearch = () => {
     navigation('posting');
   };
+
+  // 게시글 가져오기
 
   return (
     <div>
@@ -22,10 +25,11 @@ function MainPage() {
       <hr />
       <section>
         <article>
-          <span>제목</span>
-          <div>내용</div>
-          클릭하면 모달로 자세히보기 구현
+          <PostsList />
         </article>
+        {/* <Stmodal $active={isModalOpened}>asdfsf</Stmodal> */}
+
+        {/* 위 방법으로도 조건부 렌더링이 가능! */}
       </section>
     </div>
   );
