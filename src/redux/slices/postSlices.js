@@ -107,8 +107,9 @@ const fakeData = [
   },
 ];
 
+// users
 // 게시글 DB 구조 id: 게시글 uuid, content, img_url, created_at,
-// user_id: auth.user.id 를 가져옴
+// user_id: auth.user.id 프로퍼티를 가져옴.
 // id 는 게시글의 id로, SQL 에서 유일한 식별자로서 사용가능 한 것.
 // user_id 는 유저가 여러개의 글을 쓸 수 있으니 기본 키(Primary Key)라고 이야기할 수 없다.
 
