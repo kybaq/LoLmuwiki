@@ -1,10 +1,8 @@
-import Mypage from './components/Mypage';
-import Login from './pages/Login';
 import { supabase } from './shared/supabaseClient';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
+import Router from './shared/Router';
+import GlobalStyle from './GlobalStyle';
 
 const App = () => {
   // header완성되면 이동할 예정
@@ -15,7 +13,7 @@ const App = () => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log('refreshToken::', data);
+    // console.log('refreshToken::', data);
     return data;
   };
 
@@ -46,7 +44,7 @@ const App = () => {
     }
   };
 
-  const { data, isPending, isError, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ['refreshToken'],
     queryFn: refreshToken,
     enabled: true,
@@ -70,13 +68,10 @@ const App = () => {
   }, [queryClient]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/mypage" element={<Mypage />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
   );
 };
 
