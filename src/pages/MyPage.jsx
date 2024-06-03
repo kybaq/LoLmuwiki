@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import AccountInfo from '../components/AccountInfo';
@@ -21,7 +22,7 @@ const Mypage = () => {
     <Container>
       <Sidebar />
       <Content>
-        <Title>내 정보</Title>
+        <Title>기본정보</Title>
         <AccountInfo />
       </Content>
     </Container>

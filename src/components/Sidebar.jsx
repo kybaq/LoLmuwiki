@@ -1,9 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const SidebarContainer = styled.div`
   width: 200px;
   border-right: 1px solid #ddd;
-  padding: 30px;
+  padding: 20px;
 `;
 
 const Nav = styled.nav`
@@ -13,8 +14,12 @@ const Nav = styled.nav`
   }
 
   li {
-    padding: 20px 0;
+    padding: 10px 0;
     cursor: pointer;
+
+    &.active {
+      font-weight: bold;
+    }
   }
 `;
 
@@ -24,7 +29,7 @@ const Sidebar = () => {
       <Nav>
         <ul>
           <li>홈</li>
-          <li>계정 관리</li>
+          <li className="active">계정 관리</li>
           <li>내 게시물</li>
           <li>로그아웃</li>
         </ul>
