@@ -1,11 +1,14 @@
+<<<<<<< HEAD
 import React from 'react';
 import Mypage from './pages/Mypage';
 import Login from './pages/Login';
+=======
+>>>>>>> 8d665b48c5a6f4a0be9603dbe0cbc2453529564f
 import { supabase } from './shared/supabaseClient';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
+import Router from './shared/Router';
+import GlobalStyle from './GlobalStyle';
 
 const App = () => {
   // header완성되면 이동할 예정
@@ -15,7 +18,7 @@ const App = () => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log('refreshToken::', data);
+    // console.log('refreshToken::', data);
     return data;
   };
   const getSession = async () => {
@@ -43,7 +46,12 @@ const App = () => {
       return false;
     }
   };
+<<<<<<< HEAD
   const { data, isPending, isError, error } = useQuery({
+=======
+
+  const { data } = useQuery({
+>>>>>>> 8d665b48c5a6f4a0be9603dbe0cbc2453529564f
     queryKey: ['refreshToken'],
     queryFn: refreshToken,
     enabled: true,
@@ -63,13 +71,10 @@ const App = () => {
     return () => clearInterval(interval);
   }, [queryClient]);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/mypage" element={<Mypage />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
   );
 };
 export default App;
