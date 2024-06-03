@@ -5,6 +5,7 @@ import { supabase } from './shared/supabaseClient';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
 
 const App = () => {
   // header완성되면 이동할 예정
@@ -72,6 +73,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mypage" element={<Mypage />} />
       </Routes>
