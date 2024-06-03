@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
-import { useEffect } from 'react';
 import LogoutButton from '../components/LogoutButton';
 
 function Login() {

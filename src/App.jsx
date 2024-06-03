@@ -1,4 +1,3 @@
-import React from 'react';
 import Mypage from './components/Mypage';
 import Login from './pages/Login';
 import { supabase } from './shared/supabaseClient';
