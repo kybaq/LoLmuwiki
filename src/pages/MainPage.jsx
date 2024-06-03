@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PostsList from '../components/PostsList';
-
 const Sth5 = styled.h5`
   border: 2px solid black;
   cursor: pointer;
@@ -14,8 +13,6 @@ function MainPage() {
   const onHandleClickSearch = () => {
     navigation('posting');
   };
-
-  // 게시글 가져오기
 
   return (
     <div>
