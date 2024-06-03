@@ -42,7 +42,11 @@ function PostItem({ post }) {
   return (
     <>
       <li onClick={() => onHandleClickPost(post)}>
-        <div>
+        <div
+          style={{
+            cursor: 'pointer',
+          }}
+        >
           <img src={`${post.img_url}`} alt="리액트 로고" />
           {post.content}
         </div>
