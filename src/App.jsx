@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import React from 'react';
 import Mypage from './pages/Mypage';
 import Login from './pages/Login';
-=======
->>>>>>> 8d665b48c5a6f4a0be9603dbe0cbc2453529564f
 import { supabase } from './shared/supabaseClient';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -46,12 +43,8 @@ const App = () => {
       return false;
     }
   };
-<<<<<<< HEAD
-  const { data, isPending, isError, error } = useQuery({
-=======
 
   const { data } = useQuery({
->>>>>>> 8d665b48c5a6f4a0be9603dbe0cbc2453529564f
     queryKey: ['refreshToken'],
     queryFn: refreshToken,
     enabled: true,
