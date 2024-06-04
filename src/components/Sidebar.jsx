@@ -20,9 +20,17 @@ const Nav = styled.nav`
   li {
     padding: 10px 0;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    margin-bottom: 10px;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
 
     &.active {
       font-weight: bold;
+      background-color: #ebe7e7;
     }
   }
 `;
@@ -54,9 +62,15 @@ const Sidebar = () => {
     <SidebarContainer>
       <Nav>
         <ul>
-          <li onClick={() => handleNavigation('/')}>홈</li>
-          <li onClick={() => handleNavigation('/mypage')}>계정 관리</li>
-          <li onClick={() => handleNavigation('/myposts')}>내 게시물</li>
+          <li onClick={() => handleNavigation('/')} className={window.location.pathname === '/' ? 'active' : ''}>
+            홈
+          </li>
+          <li onClick={() => handleNavigation('/mypage')} className={window.location.pathname === '/mypage' ? 'active' : ''}>
+            계정 관리
+          </li>
+          <li onClick={() => handleNavigation('/myposts')} className={window.location.pathname === '/myposts' ? 'active' : ''}>
+            내 게시물
+          </li>
           <li onClick={handleLogout}>로그아웃</li>
         </ul>
       </Nav>

@@ -4,8 +4,16 @@ import { useSelector } from 'react-redux';
 import { supabase } from '../shared/supabaseClient';
 import Sidebar from '../components/Sidebar';
 
-const Container = styled.div`
+const PageContainer = styled.div`
   display: flex;
+  justify-content: center; 
+  font-family: Arial, sans-serif;
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  max-width: 1200px; 
+  width: 100%;
 `;
 
 const Content = styled.div`
@@ -15,6 +23,7 @@ const Content = styled.div`
 
 const Title = styled.h1`
   margin-bottom: 20px;
+  font-size: x-large;
 `;
 
 const PostList = styled.ul`
@@ -37,8 +46,7 @@ const Myposts = () => {
         const { data, error } = await supabase
           .from('posts')
           .select('*')
-          .eq('user_id', user.id);
-          //supabase table 값 user_id 로 표기
+          .eq('user_id', user.id);  // user_id 대신 id를 기반으로 불러오기
 
         if (error) {
           console.error('Error fetching posts:', error.message);
@@ -52,17 +60,19 @@ const Myposts = () => {
   }, [user.id]);
 
   return (
-    <Container>
-      <Sidebar />
-      <Content>
-        <Title>내 게시물</Title>
-        <PostList>
-          {posts.map((post) => (
-            <PostItem key={post.id}>{post.title}</PostItem>
-          ))}
-        </PostList>
-      </Content>
-    </Container>
+    <PageContainer>
+      <InnerContainer>
+        <Sidebar />
+        <Content>
+          <Title>내 게시물</Title>
+          <PostList>
+            {posts.map((post) => (
+              <PostItem key={post.id}>{post.title}</PostItem>
+            ))}
+          </PostList>
+        </Content>
+      </InnerContainer>
+    </PageContainer>
   );
 };
 

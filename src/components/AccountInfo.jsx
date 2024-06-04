@@ -9,6 +9,9 @@ import { login } from '../redux/slices/authSlice';
 const AccountInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  padding: 20px;
 `;
 
 const AccountInfo = () => {
@@ -45,17 +48,11 @@ const AccountInfo = () => {
     }
   };
   
-  
   return (
     <AccountInfoContainer>
       <ProfilePicture />
-      <AccountInfoItem label="이메일">
-        <input type="text" value={email} readOnly />
-      </AccountInfoItem>
-      <AccountInfoItem label="닉네임">
-        <span>{full_name}</span>
-        <a href="#" onClick={handleNicknameChange}>닉네임 수정하기</a>
-      </AccountInfoItem>
+      <AccountInfoItem label="이메일" value={email} editable={false} />
+      <AccountInfoItem label="닉네임" value={full_name} editable={true} onEdit={handleNicknameChange} />
     </AccountInfoContainer>
   );
 };

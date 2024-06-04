@@ -3,9 +3,16 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import AccountInfo from '../components/AccountInfo';
 
-const Container = styled.div`
+const PageContainer = styled.div`
   display: flex;
+  justify-content: center; 
   font-family: Arial, sans-serif;
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  max-width: 1200px; 
+  width: 100%;
 `;
 
 const Content = styled.div`
@@ -15,18 +22,21 @@ const Content = styled.div`
 
 const Title = styled.h1`
   margin-bottom: 20px;
+  font-size: x-large;
 `;
 
-const MyPage = () => {
+const Mypage = () => {
   return (
-    <Container>
-      <Sidebar />
-      <Content>
-        <Title>기본정보</Title>
-        <AccountInfo />
-      </Content>
-    </Container>
+    <PageContainer>
+      <InnerContainer>
+        <Sidebar />
+        <Content>
+          <Title>내 계정</Title>
+          <AccountInfo />
+        </Content>
+      </InnerContainer>
+    </PageContainer>
   );
 };
 
-export default MyPage;
+export default Mypage;
