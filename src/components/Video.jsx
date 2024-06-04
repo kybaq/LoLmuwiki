@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -40,6 +41,12 @@ const StBtn = styled.button`
 `;
 
 const Video = () => {
+  const navigation = useNavigate();
+
+  const onHandleWriteBtn = () => {
+    // 로그인 상태일 때만 가능하도록 설정필요.
+  };
+
   return (
     <Wrapper>
       <StVideo autoPlay loop muted>
@@ -48,7 +55,7 @@ const Video = () => {
           type="video/webm"
         />
       </StVideo>
-      <StBtn>글 쓰기</StBtn>
+      <StBtn onClick={() => navigation('post')}>글 쓰기</StBtn>
     </Wrapper>
   );
 };
