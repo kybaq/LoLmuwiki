@@ -6,8 +6,7 @@ import my_profile from '../assets/img/my_profile.png';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../shared/supabaseClient';
 import { logout } from '../redux/slices/authSlice';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const StContainer = styled.header`
   top: 0;
@@ -82,25 +81,27 @@ const Header = ({ handleLogin }) => {
     navigate('/');
   };
 
-  const handleMyProfile = () => {
-    navigate('/myprofile');
+  const handleMyPageClick = () => {
+    navigate('/mypage');
   };
 
+  // 시승님
   return (
     <StContainer>
       <StLogo src={logo} onClick={handleLogoClick} />
       <StBtnContainer>
         {isAuthenticated ? (
-          <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
-        ) : (
           <>
-            <StAuthBtn onClick={handleLogin}>로그인</StAuthBtn>
-            <StMyPage src={my_profile} onClick={handleMyProfile} />
+            <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
+            <StMyPage src={my_profile} onClick={handleMyPageClick} />
           </>
+        ) : (
+          <StAuthBtn onClick={handleLogin}>로그인</StAuthBtn>
         )}
       </StBtnContainer>
     </StContainer>
   );
+
 };
 
 export default Header;

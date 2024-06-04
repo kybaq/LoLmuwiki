@@ -1,3 +1,6 @@
+import React from 'react';
+import Mypage from './pages/Mypage';
+import Login from './pages/Login';
 import { supabase } from './shared/supabaseClient';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -7,7 +10,6 @@ import GlobalStyle from './GlobalStyle';
 const App = () => {
   // header완성되면 이동할 예정
   const queryClient = useQueryClient();
-
   const refreshToken = async () => {
     const { data, error } = await supabase.auth.refreshSession();
     if (error) {
@@ -16,7 +18,6 @@ const App = () => {
     // console.log('refreshToken::', data);
     return data;
   };
-
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession();
     if (error) {
@@ -25,7 +26,6 @@ const App = () => {
       return data;
     }
   };
-
   const checkTokenExpiry = async () => {
     try {
       const data = await getSession();
@@ -49,7 +49,6 @@ const App = () => {
     queryFn: refreshToken,
     enabled: true,
   });
-
   useEffect(() => {
     const fetchData = async () => {
       if (await checkTokenExpiry()) {
@@ -58,15 +57,12 @@ const App = () => {
     };
     fetchData();
   }, [queryClient]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       queryClient.invalidateQueries(['refreshToken']);
     }, 15000);
-
     return () => clearInterval(interval);
   }, [queryClient]);
-
   return (
     <>
       <GlobalStyle />
@@ -74,5 +70,4 @@ const App = () => {
     </>
   );
 };
-
 export default App;
