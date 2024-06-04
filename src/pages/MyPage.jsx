@@ -17,7 +17,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
-const Mypage = () => {
+const MyPage = () => {
   return (
     <Container>
       <Sidebar />
@@ -29,4 +29,4 @@ const Mypage = () => {
   );
 };
 
-export default Mypage;
+export default MyPage;
