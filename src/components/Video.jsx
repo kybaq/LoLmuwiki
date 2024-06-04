@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 100vw;
+  width: 100%;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 90px;
   overflow: hidden;
 `;
 
@@ -18,14 +19,13 @@ const StVideo = styled.video`
 
 const StBtn = styled.button`
   position: absolute;
-  width: 150px;
-  font-size: 15px;
-  font-weight: bold;
-  height: 50px;
-  bottom: 150px;
+  width: 200px;
+  height: 70px;
+  font-size: 18px;
+  bottom: 100px;
   padding: 10px 20px;
   align-items: end;
-  background-color: rgb(200, 170, 110);
+  background-color: #c8aa6e;
   border: none;
   border-radius: 5px;
   color: rgb(10, 20, 40);
@@ -35,7 +35,7 @@ const StBtn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: rgb(233, 211, 169);
+    background-color: #e9d3a9;
   }
 `;
 
