@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import supabase from '../shared/supabaseClient';
+import { supabase } from '../shared/supabaseClient';
 import { Link } from 'react-router-dom';
 
 const StWrapper = styled.div`
