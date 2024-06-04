@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import logo from '../assets/img/logo.png';
+import my_profile from '../assets/img/my_profile.png';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../shared/supabaseClient';
 import { logout } from '../redux/slices/authSlice';
@@ -9,6 +10,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 const StContainer = styled.header`
+  top: 0;
   display: flex;
   width: 100%;
   align-items: center;
@@ -16,15 +18,15 @@ const StContainer = styled.header`
   background-color: #0a1528;
   color: white;
   position: fixed;
-  top: 0;
   z-index: 1000;
   justify-content: space-between;
+  box-sizing: border-box;
 `;
 
 const StBtnContainer = styled.div`
   display: flex;
-  float: right;
-  gap: 10px;
+  gap: 25px;
+  max-width: 100%;
 `;
 
 const StAuthBtn = styled.button`
@@ -44,16 +46,14 @@ const StLogo = styled.img`
   cursor: pointer;
 `;
 
-const StMyPage = styled.button`
-  background-color: #ffffff;
-  border: 1px solid #00c8ff;
-  color: #0a1528;
-  padding: 10px 20px;
+const StMyPage = styled.img`
+  width: 45px;
+  background-color: #0a1528;
   cursor: pointer;
   border-radius: 5px;
-  margin-left: 10px;
+
   &:hover {
-    background-color: #f0f0f0;
+    transform: scale(1.1);
   }
 `;
 
@@ -82,19 +82,23 @@ const Header = ({ handleLogin }) => {
     navigate('/');
   };
 
+  const handleMyProfile = () => {
+    navigate('/myprofile');
+  };
+
   return (
     <StContainer>
       <StLogo src={logo} onClick={handleLogoClick} />
-      {isLogin ? (
-        <StBtnContainer>
+      <StBtnContainer>
+        {isAuthenticated ? (
           <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
-          <StMyPage>마이페이지</StMyPage>
-        </StBtnContainer>
-      ) : (
-        <StBtnContainer>
-          <StAuthBtn onClick={handleLogin}>로그인</StAuthBtn>
-        </StBtnContainer>
-      )}
+        ) : (
+          <>
+            <StAuthBtn onClick={handleLogin}>로그인</StAuthBtn>
+            <StMyPage src={my_profile} onClick={handleMyProfile} />
+          </>
+        )}
+      </StBtnContainer>
     </StContainer>
   );
 };

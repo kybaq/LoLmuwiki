@@ -3,6 +3,7 @@ import Home from '../pages/Home';
 import Detail from '../pages/Detail';
 import Post from '../pages/Post';
 import PostViewModal from '../components/PostViewModal';
+import GlobalStyle from '../GlobalStyle';
 
 function Router() {
   return (

@@ -4,23 +4,16 @@ import LoginModal from '../components/LoginModal';
 import styled from 'styled-components';
 import Video from '../components/Video';
 import FeedList from '../components/FeedList';
-import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { supabase } from '../shared/supabaseClient';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
+import ToTopButton from '../components/ToTopBtn';
 
 const StMain = styled.main`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  padding: 70px 0px;
-`;
-
-const StWrapper = styled.div`
-  margin: 0 auto;
+  gap: 15px;
 `;
 
 const Home = () => {
@@ -52,16 +45,15 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <Header handleLogin={openModal} />
-      <LoginModal isOpen={isModalOpen} onRequestClose={closeModal} />
+    <>
       <StMain>
+        <Header handleLogin={openModal} />
+        <LoginModal isOpen={isModalOpen} onRequestClose={closeModal} />
         <Video />
-        <StWrapper>
-          <FeedList />
-        </StWrapper>
+        <FeedList />
       </StMain>
-    </div>
+      <ToTopButton />
+    </>
   );
 };
 
