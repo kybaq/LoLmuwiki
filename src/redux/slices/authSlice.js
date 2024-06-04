@@ -20,7 +20,7 @@ const authSlice = createSlice({
         created_at: action.payload.created_at,
         full_name: action.payload.identity_data.full_name,
         avatar_url: action.payload.identity_data.avatar_url,
-        isAuthenticated: Boolean(action),
+        isAuthenticated: true,
       };
     },
     logout: () => {
