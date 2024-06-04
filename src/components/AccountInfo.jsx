@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import AccountInfoItem from './AccountInfoItem';
+import ProfilePicture from './ProfilePicture';
+import { supabase } from '../shared/supabaseClient';
+import { login } from '../redux/slices/authSlice';
 
 const AccountInfoContainer = styled.div`
   display: flex;
@@ -8,24 +12,48 @@ const AccountInfoContainer = styled.div`
 `;
 
 const AccountInfo = () => {
-  const handlePasswordReset = () => {
-    alert('비밀번호를 재설정할 수 있습니다.');
-  };
+  const dispatch = useDispatch();
+  const { id, email, full_name } = useSelector((state) => state.auth);
 
-  const handleNicknameChange = () => {
-    alert('닉네임을 수정할 수 있습니다.');
+  const handleNicknameChange = async () => {
+    const newNickname = prompt('새로운 닉네임을 입력하세요:', full_name);
+    
+    if (newNickname === null) return; 
+    
+    if (newNickname !== full_name) {
+      if (newNickname.length > 8) {
+        alert('닉네임은 8자 이하로 설정해야 합니다.');
+        return;
+      }
+      try {
+        const { error } = await supabase
+          .from('users')
+          .update({ nickname: newNickname })
+          .eq('id', id);
+  
+        if (error) {
+          throw error;
+        }
+  
+        dispatch(login({ id, email, full_name: newNickname }));
+  
+        alert('닉네임이 성공적으로 변경되었습니다.');
+      } catch (error) {
+        console.error('닉네임 변경 중 오류:', error);
+        alert('닉네임 변경 중 오류가 발생했습니다.');
+      }
+    }
   };
-
+  
+  
   return (
     <AccountInfoContainer>
+      <ProfilePicture />
       <AccountInfoItem label="이메일">
-        <input type="text" value="example@gmail.com" readOnly />
-      </AccountInfoItem>
-      <AccountInfoItem label="비밀번호">
-        <a href="#" onClick={handlePasswordReset}>비밀번호 재설정하기</a>
+        <input type="text" value={email} readOnly />
       </AccountInfoItem>
       <AccountInfoItem label="닉네임">
-        <span>b10조-석</span>
+        <span>{full_name}</span>
         <a href="#" onClick={handleNicknameChange}>닉네임 수정하기</a>
       </AccountInfoItem>
     </AccountInfoContainer>

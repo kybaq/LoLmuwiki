@@ -5,8 +5,7 @@ import logo from '../assets/img/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../shared/supabaseClient';
 import { logout } from '../redux/slices/authSlice';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const StContainer = styled.header`
   display: flex;
@@ -82,13 +81,17 @@ const Header = ({ handleLogin }) => {
     navigate('/');
   };
 
+  const handleMyPageClick = () => {
+    navigate('/mypage');
+  };
+
   return (
     <StContainer>
       <StLogo src={logo} onClick={handleLogoClick} />
       {isLogin ? (
         <StBtnContainer>
           <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
-          <StMyPage>마아페이지</StMyPage>
+          <StMyPage onClick={handleMyPageClick}>내 계정</StMyPage>
         </StBtnContainer>
       ) : (
         <StBtnContainer>
