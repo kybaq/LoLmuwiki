@@ -38,8 +38,6 @@ const Home = () => {
     const { data } = await supabase.auth.getSession();
     return data;
   };
-  // const authData = useSelector((state) => state.auth);
-  // console.log('authData::', authData);
 
   useEffect(() => {
     const fetchData = async () => {
