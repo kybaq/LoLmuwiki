@@ -1,6 +1,4 @@
 import React from 'react';
-import Mypage from './pages/Mypage';
-import Login from './pages/Login';
 import { supabase } from './shared/supabaseClient';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';

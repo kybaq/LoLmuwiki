@@ -15,7 +15,7 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       return {
-        id: action.payload.id,
+        id: action.payload.identity_id,
         email: action.payload.email,
         created_at: action.payload.created_at,
         full_name: action.payload.identity_data.full_name,

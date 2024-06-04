@@ -1,7 +1,7 @@
 import { supabase } from '../shared/supabaseClient';
 
 function Login() {
-  const redirectUrl = window.location.href;
+  const redirectUrl = window.location.href.split('#')[0];
   const handleSocialLogin = async (provider) => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider,
