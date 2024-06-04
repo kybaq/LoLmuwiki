@@ -88,7 +88,7 @@ const Header = ({ handleLogin }) => {
       {isLogin ? (
         <StBtnContainer>
           <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
-          <StMyPage>마아페이지</StMyPage>
+          <StMyPage>마이페이지</StMyPage>
         </StBtnContainer>
       ) : (
         <StBtnContainer>
