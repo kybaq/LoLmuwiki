@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import LoginModal from '../components/LoginModal';
 import styled from 'styled-components';
 import Video from '../components/Video';
 import FeedList from '../components/FeedList';
-import { useEffect } from 'react';
 import { supabase } from '../shared/supabaseClient';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
