@@ -8,6 +8,7 @@ import SubHeader from '../components/SubHeader';
 const PageContainer = styled.div`
   display: flex;
   justify-content: center;
+  font-family: Arial, sans-serif;
   align-items: center;
   font-family: 'Helvetica', sans-serif;
   line-height: 1.5;
