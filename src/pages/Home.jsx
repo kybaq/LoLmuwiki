@@ -17,72 +17,63 @@ const StMain = styled.main`
 `;
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth);
+  // const user = useSelector((state) => state.auth);
 
-  const saveUserToDatabase = async (user) => {
-    console.log('user::', user);
-    const userData = {
-      user_id: user.id,
-      full_name: user.full_name,
-      avatar_url: user.avatar_url,
-      email: user.email,
-      created_at: user.created_at,
-    };
-    console.log('user_id::', userData.user_id);
-    // try {
-    //   const { error } = await supabase.from('users').upsert([userData]);
-    //   if (error) {
-    //     console.error(
-    //       '유저 정보를 데이터베이스에 저장하는 중 에러 발생:',
-    //       error.message,
-    //     );
-    //   } else {
-    //     console.log('유저 정보를 데이터베이스에 성공적으로 저장');
-    //   }
-    // } catch (error) {
-    //   console.error(
-    //     '유저 정보를 데이터베이스에 저장하는 중 에러 발생:',
-    //     error.message,
-    //   );
-    // }
-  };
+  // const saveUserToDatabase = async (user) => {
+  //   const userData = {
+  //     user_id: user.id,
+  //     full_name: user.full_name,
+  //     avatar_url: user.avatar_url,
+  //     email: user.email,
+  //     created_at: user.created_at,
+  //   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  //   try {
+  //     const { error } = await supabase.from('users').upsert([userData]);
+  //     if (error) {
+  //       console.error(
+  //         '유저 정보를 데이터베이스에 저장하는 중 에러 발생:',
+  //         error.message,
+  //       );
+  //     } else {
+  //       console.log('유저 정보를 데이터베이스에 성공적으로 저장');
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       '유저 정보를 데이터베이스에 저장하는 중 에러 발생:',
+  //       error.message,
+  //     );
+  //   }
+  // };
 
-  const getUserSession = async () => {
-    const { data } = await supabase.auth.getSession();
-    return data;
-  };
+  // const getUserSession = async () => {
+  //   const { data } = await supabase.auth.getSession();
+  //   return data;
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { session } = await getUserSession();
-      console.log('session::', session);
-      if (session) {
-        dispatch(login(session.user.identities[0]));
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { session } = await getUserSession();
 
-  useEffect(() => {
-    if (user.isAuthenticated) {
-      saveUserToDatabase(user);
-    }
-  }, [user]);
+  //     if (session) {
+  //       dispatch(login(session.user.identities[0]));
+  //       console.log('session dispatch');
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (user.isAuthenticated) {
+  //     saveUserToDatabase(user);
+  //   }
+  // }, [user]);
 
   return (
     <>
       <StMain>
-        <Header handleLogin={openModal} />
-        <LoginModal isOpen={isModalOpen} onRequestClose={closeModal} />
+        <Header />
         <Video />
         <FeedList />
       </StMain>

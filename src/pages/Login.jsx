@@ -7,18 +7,24 @@ import styled from 'styled-components';
 import google from '../assets/img/google.png';
 import github from '../assets/img/github.png';
 import kakao from '../assets/img/kakao.png';
+import ForgotPassword from '../components/ForgotPassword';
+import { useEffect } from 'react';
+import { login } from '../redux/slices/authSlice';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 function Login({ onRequestClose }) {
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isRegistered, setIsRegistered] = useState(true);
+  const [isForgot, setIsForgot] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
-  // const [message, setMessage] = useState('')
 
   const handleInput = (ref) => {
     if (ref === 'email') {
@@ -34,6 +40,38 @@ function Login({ onRequestClose }) {
     }
   };
 
+  const getUserSession = async () => {
+    const { data } = await supabase.auth.getSession();
+    return data;
+  };
+
+  const saveUserToDatabase = async (user) => {
+    const userData = {
+      user_id: user.id,
+      full_name: user.full_name,
+      avatar_url: user.avatar_url,
+      email: user.email,
+      created_at: user.created_at,
+    };
+
+    try {
+      const { error } = await supabase.from('users').upsert([userData]);
+      if (error) {
+        console.error(
+          '유저 정보를 데이터베이스에 저장하는 중 에러 발생:',
+          error.message,
+        );
+      } else {
+        console.log('유저 정보를 데이터베이스에 성공적으로 저장');
+      }
+    } catch (error) {
+      console.error(
+        '유저 정보를 데이터베이스에 저장하는 중 에러 발생:',
+        error.message,
+      );
+    }
+  };
+
   async function signInWithEmail(e) {
     e.preventDefault();
     if (loginInfo.email === '' || loginInfo.password === '') {
@@ -44,10 +82,15 @@ function Login({ onRequestClose }) {
       password: loginInfo.password,
     });
     if (error) {
-      // console.error(error);
       alert('회원정보가 일치하지 않습니다');
       return;
     } else if (data) {
+      const { session } = await getUserSession();
+      if (session) {
+        dispatch(login(session.user.identities[0]));
+        console.log('session dispatch');
+        saveUserToDatabase(session.user);
+      }
       onRequestClose();
       navigate(`${location.pathname}`);
     }
@@ -56,14 +99,13 @@ function Login({ onRequestClose }) {
   const handleSocialLogin = async (provider) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
 
     if (error) {
       console.error(`Error logging in with ${provider}:`, error.message);
-    }
-    if (data) {
-      onRequestClose();
-      navigate(`${location.pathname}`);
     }
   };
 
@@ -96,6 +138,10 @@ function Login({ onRequestClose }) {
             회원이 아니신가요?
             <button onClick={() => setIsRegistered(false)}>가입</button>
           </NotmemberP>
+          <ForgotPwd onClick={() => setIsForgot((prev) => !prev)}>
+            비밀번호를 잊으셨나요?
+          </ForgotPwd>
+          {isForgot && <ForgotPassword />}
         </>
       ) : (
         <>
@@ -179,21 +225,27 @@ const SocialLoginHeader = styled.h1`
   margin-bottom: 20px;
   font-size: 18px;
   text-align: center;
+  position: absolute;
+  bottom: 120px;
+  left: 220px;
 `;
 
 const SocialBtnWrap = styled.div`
   display: flex;
   justify-content: center;
   gap: 40px;
+  position: absolute;
+  bottom: 70px;
+  left: 130px;
 `;
 
 const GoogleLoginButton = styled.button`
   background-image: url(${google});
   background-color: transparent;
   width: 60px;
-  height: 60px; /* 이미지의 크기에 맞게 조정 */
-  background-size: cover; /* 이미지가 버튼 전체를 채우도록 설정 */
-  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  height: 60px;
+  background-size: cover;
+  background-repeat: no-repeat;
   border: none;
   cursor: pointer;
 `;
@@ -201,9 +253,9 @@ const GithubLoginButton = styled.button`
   background-image: url(${github});
   background-color: transparent;
   width: 60px;
-  height: 60px; /* 이미지의 크기에 맞게 조정 */
-  background-size: cover; /* 이미지가 버튼 전체를 채우도록 설정 */
-  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  height: 60px;
+  background-size: cover;
+  background-repeat: no-repeat;
   border: none;
   cursor: pointer;
 `;
@@ -211,9 +263,9 @@ const KakaoLoginButton = styled.button`
   background-image: url(${kakao});
   background-color: transparent;
   width: 60px;
-  height: 60px; /* 이미지의 크기에 맞게 조정 */
-  background-size: cover; /* 이미지가 버튼 전체를 채우도록 설정 */
-  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  height: 60px;
+  background-size: cover;
+  background-repeat: no-repeat;
   border: none;
   cursor: pointer;
 `;
@@ -221,12 +273,17 @@ const KakaoLoginButton = styled.button`
 const NotmemberP = styled.p`
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
 
   button {
-    margin-left: 10px;
-    border: 1px solid black;
+    margin-left: 5px;
+    border: none;
     background-color: transparent;
     cursor: pointer;
-    width: 60px;
+    font-size: 15px;
   }
+`;
+
+const ForgotPwd = styled.p`
+  cursor: pointer;
 `;

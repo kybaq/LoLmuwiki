@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../shared/supabaseClient';
 import { logout } from '../redux/slices/authSlice';
 import { useEffect, useState } from 'react';
+import LoginModal from './LoginModal';
 
 const StContainer = styled.header`
   top: 0;
@@ -56,16 +57,21 @@ const StMyPage = styled.img`
   }
 `;
 
-const Header = ({ handleLogin }) => {
+const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  console.log('isAuthenticated::', isAuthenticated);
   useEffect(() => {
     isAuthenticated ? setIsLogin(true) : setIsLogin(false);
   }, [isAuthenticated]);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setIsLogin(true);
+  };
 
   const handleLogout = async () => {
     try {
@@ -88,19 +94,22 @@ const Header = ({ handleLogin }) => {
 
   // 시승님
   return (
-    <StContainer>
-      <StLogo src={logo} onClick={handleLogoClick} />
-      <StBtnContainer>
-        {isAuthenticated ? (
-          <>
-            <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
-            <StMyPage src={my_profile} onClick={handleMyPageClick} />
-          </>
-        ) : (
-          <StAuthBtn onClick={handleLogin}>로그인</StAuthBtn>
-        )}
-      </StBtnContainer>
-    </StContainer>
+    <>
+      <StContainer>
+        <StLogo src={logo} onClick={handleLogoClick} />
+        <StBtnContainer>
+          {isLogin ? (
+            <>
+              <StAuthBtn onClick={handleLogout}>로그아웃</StAuthBtn>
+              <StMyPage src={my_profile} onClick={handleMyPageClick} />
+            </>
+          ) : (
+            <StAuthBtn onClick={() => setIsModalOpen(true)}>로그인</StAuthBtn>
+          )}
+        </StBtnContainer>
+      </StContainer>
+      <LoginModal isOpen={isModalOpen} onRequestClose={closeModal} />
+    </>
   );
 };
 
