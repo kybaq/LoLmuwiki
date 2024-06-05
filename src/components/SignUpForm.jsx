@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { supabase } from '../shared/supabaseClient';
+import styled from 'styled-components';
 
 function SignUpForm({ setIsRegistered }) {
   const emailRef = useRef('');
@@ -43,21 +44,52 @@ function SignUpForm({ setIsRegistered }) {
   }
 
   return (
-    <form onSubmit={signUpNewUser}>
-      <input
+    <SignForm onSubmit={signUpNewUser}>
+      <SignLabel htmlfor="email">Email</SignLabel>
+      <SignInput
+        id="email"
         type="email"
         onChange={() => handleInput('email')}
         ref={emailRef}
       />
-      <input
+      <SignLabel htmlfor="password">Password</SignLabel>
+      <SignInput
+        id="password"
         type="password"
         onChange={() => handleInput('password')}
         ref={passwordRef}
       />
-      <button>sign up</button>
+      <SignBtn>가입</SignBtn>
       {message && message}
-    </form>
+    </SignForm>
   );
 }
 
 export default SignUpForm;
+
+const SignForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
+const SignLabel = styled.label`
+  margin-bottom: 5px;
+`;
+
+const SignInput = styled.input`
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #0a1528;
+`;
+
+const SignBtn = styled.button`
+  background-color: #0a1528;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+`;

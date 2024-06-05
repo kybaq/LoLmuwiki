@@ -4,6 +4,9 @@ import { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SignUpForm from '../components/SignUpForm';
 import styled from 'styled-components';
+import google from '../assets/img/google.png';
+import github from '../assets/img/github.png';
+import kakao from '../assets/img/kakao.png';
 
 function Login({ onRequestClose }) {
   const emailRef = useRef('');
@@ -69,7 +72,7 @@ function Login({ onRequestClose }) {
       {isRegistered ? (
         <>
           <InputForm onSubmit={signInWithEmail}>
-            <label htmlFor="email">Email</label>
+            <LoginLabel htmlFor="email">Email</LoginLabel>
             <LoginInput
               id="email"
               type="email"
@@ -77,7 +80,7 @@ function Login({ onRequestClose }) {
               ref={emailRef}
               required
             />
-            <label htmlFor="password">Password</label>
+            <LoginLabel htmlFor="password">Password</LoginLabel>
             <LoginInput
               id="password"
               type="password"
@@ -87,30 +90,42 @@ function Login({ onRequestClose }) {
               minLength="6"
             />
 
-            <button>Log in</button>
+            <LoginBtn>로그인</LoginBtn>
           </InputForm>
-          <p>
+          <NotmemberP>
             회원이 아니신가요?
-            <button onClick={() => setIsRegistered(false)}>Join</button>
-          </p>
+            <button onClick={() => setIsRegistered(false)}>가입</button>
+          </NotmemberP>
         </>
       ) : (
         <>
           <SignUpForm setIsRegistered={setIsRegistered} />
-          <button onClick={() => setIsRegistered(true)}>Prev</button>
+          <PrevButton onClick={() => setIsRegistered(true)}>
+            이전으로
+          </PrevButton>
         </>
       )}
 
-      <h1>Supabase Social Login</h1>
-      <button type="button" onClick={() => handleSocialLogin('google')}>
-        {isRegistered ? 'Login with Google' : 'Join With Google'}
-      </button>
-      <button type="button" onClick={() => handleSocialLogin('github')}>
-        {isRegistered ? 'Login with Github' : 'Join With Github'}
-      </button>
-      <button type="button" onClick={() => handleSocialLogin('kakao')}>
-        {isRegistered ? 'Login with Kakao' : 'Join With Kakao'}
-      </button>
+      <SocialLoginHeader>소셜로그인</SocialLoginHeader>
+      <SocialBtnWrap>
+        <GoogleLoginButton
+          kind="google"
+          type="button"
+          onClick={() => handleSocialLogin('google')}
+        />
+
+        <GithubLoginButton
+          kind="github"
+          type="button"
+          onClick={() => handleSocialLogin('github')}
+        />
+
+        <KakaoLoginButton
+          kind="kakao"
+          type="button"
+          onClick={() => handleSocialLogin('kakao')}
+        />
+      </SocialBtnWrap>
     </LoginModalWrap>
   );
 }
@@ -119,12 +134,99 @@ export default Login;
 
 const LoginModalWrap = styled.div`
   background-color: white;
-  /* height: 100%; */
+  height: 90%;
+  padding: 20px;
 `;
 
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 `;
 
-const LoginInput = styled.input``;
+const LoginLabel = styled.label`
+  margin-bottom: 5px;
+`;
+
+const LoginInput = styled.input`
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #0a1528;
+`;
+
+const LoginBtn = styled.button`
+  background-color: #0a1528;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
+
+const PrevButton = styled.button`
+  color: #1b76af;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 5px;
+`;
+
+const SocialLoginHeader = styled.h1`
+  margin-top: 60px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  text-align: center;
+`;
+
+const SocialBtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+`;
+
+const GoogleLoginButton = styled.button`
+  background-image: url(${google});
+  background-color: transparent;
+  width: 60px;
+  height: 60px; /* 이미지의 크기에 맞게 조정 */
+  background-size: cover; /* 이미지가 버튼 전체를 채우도록 설정 */
+  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  border: none;
+  cursor: pointer;
+`;
+const GithubLoginButton = styled.button`
+  background-image: url(${github});
+  background-color: transparent;
+  width: 60px;
+  height: 60px; /* 이미지의 크기에 맞게 조정 */
+  background-size: cover; /* 이미지가 버튼 전체를 채우도록 설정 */
+  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  border: none;
+  cursor: pointer;
+`;
+const KakaoLoginButton = styled.button`
+  background-image: url(${kakao});
+  background-color: transparent;
+  width: 60px;
+  height: 60px; /* 이미지의 크기에 맞게 조정 */
+  background-size: cover; /* 이미지가 버튼 전체를 채우도록 설정 */
+  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  border: none;
+  cursor: pointer;
+`;
+
+const NotmemberP = styled.p`
+  display: flex;
+  align-items: center;
+
+  button {
+    margin-left: 10px;
+    border: 1px solid black;
+    background-color: transparent;
+    cursor: pointer;
+    width: 60px;
+  }
+`;
