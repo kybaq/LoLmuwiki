@@ -12,7 +12,6 @@ const PageContainer = styled.div`
   align-items: center;
   font-family: 'Helvetica', sans-serif;
   line-height: 1.5;
-  gap: 100px;
   width: 800px;
   height: 600px;
   background-color: rgba(0, 30, 83, 0.35);
