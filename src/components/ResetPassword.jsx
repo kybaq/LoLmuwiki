@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
@@ -20,7 +21,7 @@ function ResetPassword() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <ResetForm onSubmit={handleSubmit}>
       <input
         type="password"
         placeholder="Enter your new password"
@@ -28,8 +29,32 @@ function ResetPassword() {
         onChange={(e) => setNewPassword(e.target.value)}
       />
       <button type="submit">Reset Password</button>
-    </form>
+    </ResetForm>
   );
 }
 
 export default ResetPassword;
+
+const ResetForm = styled.form`
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+
+  input {
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #0a1528;
+  }
+
+  button {
+    background-color: #0a1528;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+`;
