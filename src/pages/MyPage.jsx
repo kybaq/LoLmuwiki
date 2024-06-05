@@ -2,40 +2,62 @@ import React from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import AccountInfo from '../components/AccountInfo';
+import SubHeader from '../components/SubHeader';
 
 const PageContainer = styled.div`
-  display: flex;
-  justify-content: center; 
-  font-family: Arial, sans-serif;
-`;
-
-const InnerContainer = styled.div`
-  display: flex;
-  max-width: 1200px; 
-  width: 100%;
-`;
-
-const Content = styled.div`
-  flex: 1;
-  padding: 20px;
+  display: grid;
+  grid-template-rows: 50px 300px;
+  grid-template-columns: 1fr 3fr;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Helvetica', sans-serif;
+  line-height: 1.5;
+  gap: 100px;
+  width: 800px;
+  height: 600px;
+  background-color: rgba(0, 30, 83, 0.35);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  color: #9a9999;
+  border-radius: 8px;
+  margin: 20px auto;
+  border: none;
+  color: white;
+  box-shadow: 0 0 1px #8d8d8d, 0 0 3px #8d8d8d, 0 0 6px #8d8d8d,
+    0 0 30px #8d8d8d;
+  margin-top: 150px;
 `;
 
 const Title = styled.h1`
-  margin-bottom: 20px;
+  grid-column: 1 / -1;
+
+  text-align: center;
   font-size: x-large;
+`;
+const SidebarContainer = styled.div`
+  grid-column: 1 / 2;
+`;
+
+const Content = styled.div`
+  grid-column: 2 / 2;
+  justify-content: center;
 `;
 
 const Mypage = () => {
   return (
-    <PageContainer>
-      <InnerContainer>
-        <Sidebar />
+    <>
+      <SubHeader />
+      <PageContainer>
+        <Title>내 계정</Title>
+        <SidebarContainer>
+          <Sidebar />
+        </SidebarContainer>
         <Content>
-          <Title>내 계정</Title>
           <AccountInfo />
         </Content>
-      </InnerContainer>
-    </PageContainer>
+      </PageContainer>
+    </>
   );
 };
 

@@ -7,8 +7,7 @@ import ProfilePicture from './ProfilePicture';
 const AccountInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  width: 80%;
   padding: 20px;
   color: white;
 `;
