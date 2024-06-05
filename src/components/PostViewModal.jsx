@@ -50,6 +50,8 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
   const onClickCompleteBtn = async () => {
     await updatePost();
     setIsEditable(false);
+    setModalOpened(false);
+    alert('수정완료되었습니다.');
   };
 
   return (
