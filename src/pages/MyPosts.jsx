@@ -8,7 +8,6 @@ import SubHeader from '../components/SubHeader';
 const PageContainer = styled.div`
   display: flex;
   justify-content: center;
-  justify-content: center;
   align-items: center;
   font-family: 'Helvetica', sans-serif;
   line-height: 1.5;
@@ -25,13 +24,14 @@ const PageContainer = styled.div`
   color: white;
   box-shadow: 0 0 1px #8d8d8d, 0 0 3px #8d8d8d, 0 0 6px #8d8d8d,
     0 0 30px #8d8d8d;
-  margin-top: 150px;
+  margin-top: 170px;
 `;
 
 const InnerContainer = styled.div`
   display: flex;
   max-width: 1200px;
   width: 100%;
+  align-items: center;
 `;
 
 const Content = styled.div`
@@ -40,7 +40,8 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  text-align: center;
   font-size: x-large;
 `;
 
