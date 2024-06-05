@@ -25,7 +25,9 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '400px',
-    height: '400px',
+    width: '500px',
+    height: '500px',
+    backgroundColor: '#0a1528',
+    borderRadius: '10px',
   },
 };

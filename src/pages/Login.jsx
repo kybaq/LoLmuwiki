@@ -3,6 +3,7 @@ import { supabase } from '../shared/supabaseClient';
 import { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SignUpForm from '../components/SignUpForm';
+import styled from 'styled-components';
 
 function Login({ onRequestClose }) {
   const emailRef = useRef('');
@@ -14,6 +15,7 @@ function Login({ onRequestClose }) {
     email: '',
     password: '',
   });
+  // const [message, setMessage] = useState('')
 
   const handleInput = (ref) => {
     if (ref === 'email') {
@@ -31,14 +33,18 @@ function Login({ onRequestClose }) {
 
   async function signInWithEmail(e) {
     e.preventDefault();
+    if (loginInfo.email === '' || loginInfo.password === '') {
+      return;
+    }
     const { data, error } = await supabase.auth.signInWithPassword({
       email: loginInfo.email,
       password: loginInfo.password,
     });
     if (error) {
-      console.error(error);
-    }
-    if (data) {
+      // console.error(error);
+      alert('회원정보가 일치하지 않습니다');
+      return;
+    } else if (data) {
       onRequestClose();
       navigate(`${location.pathname}`);
     }
@@ -59,22 +65,30 @@ function Login({ onRequestClose }) {
   };
 
   return (
-    <div>
+    <LoginModalWrap>
       {isRegistered ? (
         <>
-          <form onSubmit={signInWithEmail}>
-            <input
+          <InputForm onSubmit={signInWithEmail}>
+            <label htmlFor="email">Email</label>
+            <LoginInput
+              id="email"
               type="email"
               onChange={() => handleInput('email')}
               ref={emailRef}
+              required
             />
-            <input
+            <label htmlFor="password">Password</label>
+            <LoginInput
+              id="password"
               type="password"
               onChange={() => handleInput('password')}
               ref={passwordRef}
+              required
+              minLength="6"
             />
+
             <button>Log in</button>
-          </form>
+          </InputForm>
           <p>
             회원이 아니신가요?
             <button onClick={() => setIsRegistered(false)}>Join</button>
@@ -97,8 +111,20 @@ function Login({ onRequestClose }) {
       <button type="button" onClick={() => handleSocialLogin('kakao')}>
         {isRegistered ? 'Login with Kakao' : 'Join With Kakao'}
       </button>
-    </div>
+    </LoginModalWrap>
   );
 }
 
 export default Login;
+
+const LoginModalWrap = styled.div`
+  background-color: white;
+  /* height: 100%; */
+`;
+
+const InputForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const LoginInput = styled.input``;

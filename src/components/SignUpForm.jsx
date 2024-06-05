@@ -32,18 +32,13 @@ function SignUpForm({ setIsRegistered }) {
     const { data, error } = await supabase.auth.signUp({
       email: signUpInfo.email,
       password: signUpInfo.password,
-
-      // options: {
-      //   emailRedirectTo: 'http://localhost:5173/',
-      // },
     });
     if (error) {
       console.log(error);
       return;
     } else if (data) {
       setMessage('입력하신 이메일 주소로 confirm email이 전송되었습니다');
-      setIsRegistered(true);
-      // navigate(`${location.pathname}`);
+      setIsRegistered(true); // confirm email 횟수 초과 시 사용
     }
   }
 
