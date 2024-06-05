@@ -92,7 +92,6 @@ const FeedList = () => {
     navigation(`detail/${post.id}`); // 상세페이지로 라우팅
     setModalOpened(true); // 모달 창 열기
     setActivePost(post); // 클릭한 게시글
-    console.log('modal');
   };
 
   // 실제 클릭한 Post 선택
@@ -139,7 +138,13 @@ const FeedList = () => {
         ))}
       </StSection>
       <div ref={modalRef}>
-        {isModalOpened ? <PostViewModal post={activePost} /> : null}
+        {isModalOpened ? (
+          <PostViewModal
+            activePost={activePost}
+            setPosts={setPosts}
+            setModalOpened={setModalOpened}
+          />
+        ) : null}
       </div>
     </StWrapper>
   );
