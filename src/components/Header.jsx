@@ -72,8 +72,13 @@ const Header = () => {
     setIsModalOpen(false);
     setIsLogin(true);
   };
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    setIsLogin(!!isLoggedIn);
+  }, []);
 
   const handleLogout = async () => {
+    localStorage.removeItem('isLoggedIn');
     try {
       await supabase.auth.signOut();
       setIsLogin(false);

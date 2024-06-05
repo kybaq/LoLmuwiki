@@ -8,6 +8,7 @@ function AuthCallback() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  localStorage.setItem('isLoggedIn', 'true');
 
   useEffect(() => {
     const getUserSession = async () => {

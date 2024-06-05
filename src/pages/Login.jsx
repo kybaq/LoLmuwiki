@@ -85,12 +85,14 @@ function Login({ onRequestClose }) {
       alert('회원정보가 일치하지 않습니다');
       return;
     } else if (data) {
+      localStorage.setItem('isLoggedIn', 'true');
       const { session } = await getUserSession();
       if (session) {
         dispatch(login(session.user.identities[0]));
         console.log('session dispatch');
         saveUserToDatabase(session.user);
       }
+
       onRequestClose();
       navigate(`${location.pathname}`);
     }
