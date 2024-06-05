@@ -24,7 +24,7 @@ const StBtn = styled.div`
   }
 `;
 
-function PostPage() {
+function Post() {
   const navigation = useNavigate();
 
   const { id, full_name } = useSelector((state) => state.auth);
@@ -130,4 +130,4 @@ function PostPage() {
   );
 }
 
-export default PostPage;
+export default Post;
