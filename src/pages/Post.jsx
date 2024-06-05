@@ -104,7 +104,7 @@ const StSubmitBtn = styled.button`
   }
 `;
 
-function PostPage() {
+function Post() {
   const navigation = useNavigate();
 
   const { id, full_name } = useSelector((state) => state.auth);
@@ -117,7 +117,8 @@ function PostPage() {
   // 게시글에 업로드하는 이미지
   const [images, setImages] = useState([]);
 
-  const createPosts = async () => {
+  const createPosts = async (e) => {
+    e.preventDefault();
     if (!titleRef.current.value || !contentRef.current.innerHTML) {
       alert('제목이나 내용을 입력해 주세요.');
       return;
@@ -178,7 +179,7 @@ function PostPage() {
     <StSection>
       <SubHeader />
       <StWrapper>
-        <StForm action="">
+        <StForm action="" onSubmit={createPosts}>
           <h1>게시글 작성</h1>
           <StTitleInput type="text" placeholder="제목" ref={titleRef} />
           <StContentInput contentEditable="true" ref={contentRef} />
@@ -193,14 +194,11 @@ function PostPage() {
               accept="image/*"
             />
           </StFileInputWrapper>
-
-          <StSubmitBtn type="submit" onClick={createPosts}>
-            글 작성
-          </StSubmitBtn>
+          <StSubmitBtn>글 작성</StSubmitBtn>
         </StForm>
       </StWrapper>
     </StSection>
   );
 }
 
-export default PostPage;
+export default Post;
