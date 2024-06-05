@@ -3,24 +3,104 @@ import { supabase } from '../shared/supabaseClient';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import SubHeader from '../components/SubHeader';
 
 // 각 이미지 당, 크기를 2MB 로 제한.
 const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
 
-const StBtn = styled.div`
-  width: 150px;
-  height: 30px;
-  background: #fff;
-  border: 1px solid rgb(77, 77, 77);
-  border-radius: 10px;
-  font-weight: 500;
-  cursor: pointer;
+const StSection = styled.section`
+  padding: 150px 0;
+`;
+
+const StWrapper = styled.div`
+  font-family: 'Helvetica', sans-serif;
+  line-height: 1.5;
+  justify-content: center;
+  gap: 200px;
+  width: 800px;
+  height: 750px;
+  background-color: rgba(0, 30, 83, 0.35);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  color: #9a9999;
+  border-radius: 8px;
+  margin: 20px auto;
+  border: none;
+  color: white;
+  box-shadow: 0 0 1px #8d8d8d, 0 0 3px #8d8d8d, 0 0 6px #8d8d8d,
+    0 0 30px #8d8d8d;
+`;
+
+const StForm = styled.form`
+  width: 90%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  text-decoration: none;
+  text-align: left;
+  align-items: center;
+`;
+
+const StTitleInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+`;
+
+const StContentInput = styled.div`
+  width: 100%;
+  min-height: 400px;
+  max-height: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  outline: none;
+  overflow-y: scroll;
+`;
+
+const StFileInputWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+`;
+
+const StFileUpBtn = styled.label`
+  padding: 10px 20px;
+  border: 1px solid #4d4d4d;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  margin: 10px 0 10px 0;
   &:hover {
-    background: rgb(77, 77, 77);
-    color: #fff;
+    transform: scale(1.09);
+  }
+`;
+
+const StFileInput = styled.input`
+  display: none;
+`;
+
+const StSubmitBtn = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: 1px solid #4d4d4d;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+
+  &:hover {
+    transform: scale(1.09);
   }
 `;
 
@@ -95,38 +175,31 @@ function PostPage() {
   }
 
   return (
-    <section>
-      <h1>게시글 작성</h1>
+    <StSection>
+      <SubHeader />
+      <StWrapper>
+        <StForm action="">
+          <h1>게시글 작성</h1>
+          <StTitleInput type="text" placeholder="제목" ref={titleRef} />
+          <StContentInput contentEditable="true" ref={contentRef} />
+          <StFileInputWrapper ref={imgRef}>
+            <StFileUpBtn htmlFor="file">파일 업로드하기</StFileUpBtn>
+            <StFileInput
+              multiple
+              type="file"
+              name="file"
+              id="file"
+              onChange={handleChange}
+              accept="image/*"
+            />
+          </StFileInputWrapper>
 
-      <form action="">
-        <input type="text" placeholder="제목" ref={titleRef} />
-        <div
-          contentEditable="true"
-          style={{
-            border: '1px solid black',
-          }}
-          ref={contentRef}
-        ></div>
-        <div ref={imgRef}>
-          <label htmlFor="file">
-            <StBtn>파일 업로드하기</StBtn>
-          </label>
-          <input
-            multiple
-            style={{ display: 'none' }}
-            type="file"
-            name="file"
-            id="file"
-            onChange={handleChange}
-            accept="image/*"
-          />
-        </div>
-      </form>
-
-      <button type="submit" onClick={createPosts}>
-        글 작성
-      </button>
-    </section>
+          <StSubmitBtn type="submit" onClick={createPosts}>
+            글 작성
+          </StSubmitBtn>
+        </StForm>
+      </StWrapper>
+    </StSection>
   );
 }
 

@@ -50,7 +50,6 @@ const StLink = styled(Link)`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   display: flex;
   text-align: left;
-  display: flex;
   align-items: center;
   padding: 15px;
   color: #9a9999;
