@@ -6,13 +6,13 @@ import Sidebar from '../components/Sidebar';
 
 const PageContainer = styled.div`
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   font-family: Arial, sans-serif;
 `;
 
 const InnerContainer = styled.div`
   display: flex;
-  max-width: 1200px; 
+  max-width: 1200px;
   width: 100%;
 `;
 
@@ -46,7 +46,7 @@ const Myposts = () => {
         const { data, error } = await supabase
           .from('posts')
           .select('*')
-          .eq('user_id', user.id);  // user_id 대신 id를 기반으로 불러오기
+          .eq('user_id', user.id); // user_id 대신 id를 기반으로 불러오기
 
         if (error) {
           console.error('Error fetching posts:', error.message);
