@@ -1,7 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/auth/callback", "destination": "/auth/callback" },
-    { "source": "/(.*)", "destination": "/" }
-  ],
+  "rewrites": [{ "source": "/auth/callback", "destination": "/auth/callback" }],
   "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
