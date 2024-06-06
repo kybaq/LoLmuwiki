@@ -94,6 +94,7 @@ const FeedList = () => {
   };
 
   // 실제 클릭한 Post 선택
+  // NOTE: 현재 2-3 단계 이상 깊이 props 전달이 이루어 지고 있음. 간단히 context 로 관리할 필요가 있음.
   const [activePost, setActivePost] = useState(null);
 
   // 모달 영역 지정을 위한 변수
