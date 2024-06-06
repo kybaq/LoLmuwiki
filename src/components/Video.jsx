@@ -50,6 +50,7 @@ const Video = () => {
       return;
     }
   };
+
   return (
     <Wrapper>
       <StVideo autoPlay loop muted>
