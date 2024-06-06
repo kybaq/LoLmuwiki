@@ -7,6 +7,7 @@ import styled from 'styled-components';
 function SignUpForm({ setIsRegistered }) {
   const emailRef = useRef('');
   const passwordRef = useRef('');
+  const [message, setMessage] = useState('');
   const [signUpInfo, setSignUpInfo] = useState({
     email: '',
     password: '',
@@ -26,33 +27,39 @@ function SignUpForm({ setIsRegistered }) {
     }
   };
 
-  const [message, setMessage] = useState('');
   async function signUpNewUser(e) {
     e.preventDefault();
 
     const { data, error } = await supabase.auth.signUp({
       email: signUpInfo.email,
       password: signUpInfo.password,
+      options: {
+        data: {
+          displayName: signUpInfo.email.split('@')[0],
+          avatar_url:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7P01B1Krx6Tt-gV9oI9kunu5WS45CJctXB5iQZwURfP6IJtHOyWRUsHwvZInc1gBZqrI&usqp=CAU',
+        },
+      },
     });
     if (error) {
       console.log(error);
       return;
     } else if (data) {
-      setMessage('입력하신 이메일 주소로 confirm email이 전송되었습니다');
+      // setMessage('입력하신 이메일 주소로 confirm email이 전송되었습니다');
       setIsRegistered(true); // confirm email 횟수 초과 시 사용
     }
   }
 
   return (
     <SignForm onSubmit={signUpNewUser}>
-      <SignLabel htmlfor="email">Email</SignLabel>
+      <SignLabel htmlFor="email">Email</SignLabel>
       <SignInput
         id="email"
         type="email"
         onChange={() => handleInput('email')}
         ref={emailRef}
       />
-      <SignLabel htmlfor="password">Password</SignLabel>
+      <SignLabel htmlFor="password">Password</SignLabel>
       <SignInput
         id="password"
         type="password"
@@ -60,7 +67,7 @@ function SignUpForm({ setIsRegistered }) {
         ref={passwordRef}
       />
       <SignBtn>가입</SignBtn>
-      {message && message}
+      {/* {message && message} */}
     </SignForm>
   );
 }

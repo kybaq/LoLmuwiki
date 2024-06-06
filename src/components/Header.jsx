@@ -70,7 +70,6 @@ const Header = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setIsLogin(true);
   };
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -82,7 +81,7 @@ const Header = () => {
     try {
       await supabase.auth.signOut();
       setIsLogin(false);
-      console.log('User logged out successfully.');
+      alert('로그아웃 되었습니다');
     } catch (error) {
       console.error('Error logging out:', error.message);
     }

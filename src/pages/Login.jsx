@@ -8,9 +8,7 @@ import google from '../assets/img/google.png';
 import github from '../assets/img/github.png';
 import kakao from '../assets/img/kakao.png';
 import ForgotPassword from '../components/ForgotPassword';
-import { useEffect } from 'react';
 import { login } from '../redux/slices/authSlice';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 function Login({ onRequestClose }) {
@@ -47,11 +45,11 @@ function Login({ onRequestClose }) {
 
   const saveUserToDatabase = async (user) => {
     const userData = {
-      user_id: user.id,
-      full_name: user.full_name,
-      avatar_url: user.avatar_url,
-      email: user.email,
-      created_at: user.created_at,
+      user_id: user.identities[0].id,
+      full_name: user.identities[0].identity_data.full_name,
+      avatar_url: user.identities[0].identity_data.avatar_url,
+      email: user.identities[0].identity_data.email,
+      created_at: user.identities[0].created_at,
     };
 
     try {
@@ -87,9 +85,9 @@ function Login({ onRequestClose }) {
     } else if (data) {
       localStorage.setItem('isLoggedIn', 'true');
       const { session } = await getUserSession();
+
       if (session) {
         dispatch(login(session.user.identities[0]));
-        console.log('session dispatch');
         saveUserToDatabase(session.user);
       }
 
