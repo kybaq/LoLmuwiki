@@ -48,8 +48,6 @@ const Content = styled.div`
 `;
 
 const Mypage = () => {
-  const navigate = useNavigate();
-
   return (
     <>
       <Header />
@@ -58,7 +56,9 @@ const Mypage = () => {
         <SidebarContainer>
           <Sidebar />
         </SidebarContainer>
-        <Content>{isAuthenticated && <AccountInfo />}</Content>
+        <Content>
+          <AccountInfo />
+        </Content>
       </PageContainer>
     </>
   );
