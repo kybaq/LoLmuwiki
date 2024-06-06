@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Video from '../components/Video';
 import FeedList from '../components/FeedList';
 import ToTopButton from '../components/ToTopBtn';
+
 const StMain = styled.main`
   display: flex;
   flex-direction: column;
@@ -20,4 +21,5 @@ const Home = () => {
     </>
   );
 };
+
 export default Home;

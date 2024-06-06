@@ -22,6 +22,8 @@ const StDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+  padding: 5px;
+  gap: 5px;
   font-family: 'Helvetica', sans-serif;
 
   & > :first-child {
@@ -29,15 +31,29 @@ const StDiv = styled.div`
     font-weight: bold;
     top: 0;
     margin: 5px;
-    text-align: left;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    white-space: pre-line;
   }
   & > :nth-child(2) {
     font-size: 13px;
     margin: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-line;
   }
   & > :nth-child(3) {
     font-size: 14px;
+    line-height: 1.5;
     margin: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    white-space: pre-line;
   }
 `;
 
@@ -68,11 +84,13 @@ const StLink = styled(Link)`
 
 const FeedList = () => {
   const [posts, setPosts] = useState([]);
+  const navigation = useNavigate();
+
+  const [isModalOpened, setModalOpened] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
       const { data, error } = await supabase.from('posts').select();
-      console.log(data);
 
       if (error) {
         console.error('Error fetching posts:', error);
@@ -83,9 +101,7 @@ const FeedList = () => {
     getPosts();
   }, []);
 
-  const navigation = useNavigate();
   // 게시글 클릭 시 모달 창 출력
-  const [isModalOpened, setModalOpened] = useState(false);
 
   const onHandleClickPost = (post) => {
     navigation(`detail/${post.id}`); // 상세페이지로 라우팅
@@ -94,6 +110,7 @@ const FeedList = () => {
   };
 
   // 실제 클릭한 Post 선택
+  // NOTE: 현재 2-3 단계 이상 깊이 props 전달이 이루어 지고 있음. 간단히 context 로 관리할 필요가 있음.
   const [activePost, setActivePost] = useState(null);
 
   // 모달 영역 지정을 위한 변수

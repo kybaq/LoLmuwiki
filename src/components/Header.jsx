@@ -18,7 +18,7 @@ const StContainer = styled.header`
   background-color: #0a1528;
   color: white;
   position: fixed;
-  z-index: 1000;
+  z-index: 999;
   justify-content: space-between;
   box-sizing: border-box;
 `;

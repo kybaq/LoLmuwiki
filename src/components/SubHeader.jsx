@@ -62,14 +62,16 @@ const SubHeader = ({ handleLogin }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    localStorage.removeItem('isLoggedIn');
     try {
       await supabase.auth.signOut();
       setIsLogin(false);
-      console.log('User logged out successfully.');
+      alert('로그아웃 되었습니다');
     } catch (error) {
       console.error('Error logging out:', error.message);
     }
     dispatch(logout());
+    navigate('/');
   };
 
   const handleLogoClick = () => {
