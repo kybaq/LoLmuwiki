@@ -30,9 +30,16 @@ const StModal = styled.section`
 `;
 
 const StTitle = styled.textarea`
+  max-height: 40px;
+  width: 700px;
   margin-bottom: 40px;
   text-align: center;
   font-size: x-large;
+  border-radius: 8px;
+  text-align: left;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  resize: none;
 `;
 
 const StDiv = styled.div`
@@ -45,9 +52,23 @@ const StDiv = styled.div`
   border-radius: 8px;
   border: none;
   resize: none;
-  margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 30px;
   overflow-y: scroll;
   scrollbar-color: #b3b3b3 transparent;
+
+  img {
+    max-width: 250px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    border: none;
+    resize: none;
+    width: 690px;
+    height: 220px;
+  }
 `;
 
 const StBtnContainer = styled.div`

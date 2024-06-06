@@ -11,10 +11,6 @@ const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
 // 게시글 당 최대 이미지 2개
 const MAX_IMAGE_COUNT = 2;
 
-const StSection = styled.section`
-  /* padding: 150px 0; */
-`;
-
 const StWrapper = styled.div`
   font-family: 'Helvetica', sans-serif;
   line-height: 1.5;
@@ -113,9 +109,8 @@ const StSubmitBtn = styled.button`
 `;
 
 function Post() {
-  const navigation = useNavigate();
-
-  const { id, full_name } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { id, full_name, isAuthenticated } = useSelector((state) => state.auth);
 
   // 게시글 작성
   const titleRef = useRef(null);
@@ -127,7 +122,10 @@ function Post() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   const createPosts = async (e) => {
     e.preventDefault();
@@ -156,7 +154,7 @@ function Post() {
     }
 
     alert('작성이 완료되었습니다.');
-    navigation('/');
+    navigate('/');
   };
 
   const onUploadImages = async (img) => {
@@ -212,7 +210,7 @@ function Post() {
   }
 
   return (
-    <StSection>
+    <section>
       <Header />
       <StWrapper>
         <StTitle>게시글 작성</StTitle>
@@ -233,7 +231,7 @@ function Post() {
           <StSubmitBtn>글 작성</StSubmitBtn>
         </StForm>
       </StWrapper>
-    </StSection>
+    </section>
   );
 }
 

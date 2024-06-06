@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,7 +43,6 @@ const StBtn = styled.button`
 
 const Video = () => {
   const navigation = useNavigate();
-
   const onHandleWriteBtn = () => {
     if (localStorage.getItem('isLoggedIn')) navigation('post');
     else {
@@ -50,7 +50,6 @@ const Video = () => {
       return;
     }
   };
-
   return (
     <Wrapper>
       <StVideo autoPlay loop muted>
