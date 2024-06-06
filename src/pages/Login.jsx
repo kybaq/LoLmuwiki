@@ -44,6 +44,7 @@ function Login({ onRequestClose }) {
   };
 
   const saveUserToDatabase = async (user) => {
+    console.log('user::', user);
     const userData = {
       user_id: user.identities[0].id,
       full_name: user.identities[0].identity_data.full_name,

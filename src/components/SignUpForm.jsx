@@ -36,6 +36,7 @@ function SignUpForm({ setIsRegistered }) {
       options: {
         data: {
           displayName: signUpInfo.email.split('@')[0],
+          full_name: signUpInfo.email.split('@')[0],
           avatar_url:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7P01B1Krx6Tt-gV9oI9kunu5WS45CJctXB5iQZwURfP6IJtHOyWRUsHwvZInc1gBZqrI&usqp=CAU',
         },
