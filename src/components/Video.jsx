@@ -44,7 +44,7 @@ const StBtn = styled.button`
 const Video = () => {
   const navigation = useNavigate();
   const onHandleWriteBtn = () => {
-    if (localStorage.getItem('isLoggedIn')) navigation('post');
+    if (localStorage.getItem('isLoggedIn')) navigation('/post');
     else {
       alert('로그인을 해주세요.');
       return;
