@@ -150,6 +150,11 @@ const FeedList = () => {
               <span>by {item.nickname}</span>
               <p>{item.content}</p>
             </StDiv>
+            <img
+              style={{ width: '100px' }}
+              src={item.img_path[0] ? item.img_path[0].data.publicUrl : ''}
+              alt=""
+            />
           </StLink>
         ))}
       </StSection>

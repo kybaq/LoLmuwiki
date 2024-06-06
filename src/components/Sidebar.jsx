@@ -51,6 +51,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem('isLoggedIn');
       await supabase.auth.signOut();
       dispatch(logout());
       navigate('/');

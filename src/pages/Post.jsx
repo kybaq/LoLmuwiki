@@ -8,6 +8,8 @@ import { v4 as uuidv4, v4 } from 'uuid';
 
 // 각 이미지 당, 크기를 2MB 로 제한.
 const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
+// 게시글 당 최대 이미지 2개
+const MAX_IMAGE_COUNT = 2;
 
 const StSection = styled.section`
   /* padding: 150px 0; */
@@ -178,7 +180,11 @@ function Post() {
 
   function handleChange(evt) {
     const FileList = evt.target.files;
-    console.log(evt.target.files);
+
+    if (images.length + FileList.length > MAX_IMAGE_COUNT) {
+      alert(`이미지는 최대 ${MAX_IMAGE_COUNT}개까지만 업로드할 수 있습니다.`);
+      return;
+    }
 
     const imgs = []; // File 객체 중, 진짜 파일 정보만 가져오기 위해
 
