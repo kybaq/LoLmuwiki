@@ -8,7 +8,7 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `;
 
 const ProfileImage = styled.img`
@@ -33,7 +33,9 @@ const ChangeButton = styled.button`
 
 const ProfilePicture = () => {
   const dispatch = useDispatch();
-  const { user_id, email, avatar_url } = useSelector((state) => state.auth);
+  const { id, avatar_url, email, full_name } = useSelector(
+    (state) => state.auth,
+  );
   const [profileImage, setProfileImage] = useState(avatar_url);
   const fileInputRef = useRef(null);
 
@@ -53,7 +55,11 @@ const ProfilePicture = () => {
           contentType: file.type 
         });
 
-      const publicURL = await supabase.storage
+      if (error) {
+        throw error;
+      }
+
+      const { publicURL, error: urlError } = supabase.storage
         .from('avatars')
         .getPublicUrl(filePath);
 

@@ -28,7 +28,7 @@ const PageContainer = styled.div`
   color: white;
   box-shadow: 0 0 1px #8d8d8d, 0 0 3px #8d8d8d, 0 0 6px #8d8d8d,
     0 0 30px #8d8d8d;
-  margin-top: 150px;
+  margin-top: 170px;
 `;
 
 const Title = styled.h1`
@@ -44,6 +44,7 @@ const SidebarContainer = styled.div`
 const Content = styled.div`
   grid-column: 2 / 2;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 const Mypage = () => {
