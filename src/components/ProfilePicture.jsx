@@ -33,7 +33,7 @@ const ChangeButton = styled.button`
 
 const ProfilePicture = () => {
   const dispatch = useDispatch();
-  const { id, avatar_url, email, full_name } = useSelector(
+  const { avatar_url, email, } = useSelector(
     (state) => state.auth,
   );
   const [profileImage, setProfileImage] = useState(avatar_url);
