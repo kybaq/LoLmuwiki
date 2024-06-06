@@ -1,0 +1,4 @@
+{
+  "files.autoSave": "onFocusChange",
+  "markdown.marp.themes": ["./themes/LoLmuwiki-theme.css"]
+}
