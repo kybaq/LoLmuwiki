@@ -58,8 +58,7 @@ const Sidebar = () => {
     } catch (error) {
       console.error('Error logging out:', error.message);
     }
-  };
-  
+  };  
 
   return (
     <SidebarContainer>
