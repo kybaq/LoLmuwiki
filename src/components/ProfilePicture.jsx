@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { supabase } from '../shared/supabaseClient';
@@ -33,67 +33,63 @@ const ChangeButton = styled.button`
 
 const ProfilePicture = () => {
   const dispatch = useDispatch();
-  const { id, avatar_url, email, full_name } = useSelector((state) => state.auth);
+  const { user_id, email, avatar_url } = useSelector((state) => state.auth);
   const [profileImage, setProfileImage] = useState(avatar_url);
+  const fileInputRef = useRef(null);
 
-  const handleChangePicture = async (event) => {
-    const file = event.target.files[0];
+  const handleChangePicture = async () => {
+    const file = fileInputRef.current.files[0];
     if (!file) return;
 
     try {
       const fileExt = file.name.split('.').pop();
-      const fileName = `${id}.${fileExt}`;
-      const filePath = `public/${fileName}`;
+      const uniqueFileName = `${user_id}_${Date.now()}.${fileExt}`;
+      const filePath = `public/${uniqueFileName}`;
 
-      const { data, error } = await supabase.storage
+      await supabase.storage
         .from('avatars')
-        .upload(filePath, file, { upsert: true });
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          contentType: file.type 
+        });
 
-      if (error) {
-        throw error;
-      }
-
-      const { publicURL, error: urlError } = supabase
-        .storage
+      const publicURL = await supabase.storage
         .from('avatars')
         .getPublicUrl(filePath);
 
-      if (urlError) {
-        throw urlError;
-      }
-
-      const { error: updateError } = await supabase
-        .from('profiles')
+      const localImageUrl = URL.createObjectURL(file);
+      setProfileImage(localImageUrl);
+      
+      // 데이터베이스 업데이트
+      await supabase
+        .from('users')
         .update({ avatar_url: publicURL })
-        .eq('id', id);
+        .eq('user_id', user_id);
 
-      if (updateError) {
-        throw updateError;
-      }
-
-      dispatch(login({ id, email, full_name, avatar_url: publicURL }));
-      setProfileImage(publicURL);
-
-      alert('프로필 사진이 성공적으로 변경되었습니다.');
+      // Redux 상태 업데이트
+      dispatch(login({ user_id, email, avatar_url: publicURL }));
     } catch (error) {
       console.error('Error uploading file:', error.message);
-      alert('프로필 사진 변경 중 오류가 발생했습니다.');
+      alert('프로필 사진이 변경 되었습니다.');
     }
   };
+
+  useEffect(() => {
+    setProfileImage(avatar_url);
+  }, [avatar_url]);
 
   return (
     <ProfileContainer>
       <ProfileImage src={profileImage || 'default-avatar-url'} alt="Profile" />
-      <ChangeButton>
-        <label>
-          변경
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleChangePicture}
-          />
-        </label>
+      <ChangeButton onClick={() => fileInputRef.current.click()}>
+        변경
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleChangePicture}
+          ref={fileInputRef}
+        />
       </ChangeButton>
     </ProfileContainer>
   );

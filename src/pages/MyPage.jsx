@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import Sidebar from '../components/Sidebar';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import AccountInfo from '../components/AccountInfo';
 import SubHeader from '../components/SubHeader';
+import Sidebar from '../components/Sidebar';
 
 const PageContainer = styled.div`
   display: grid;
@@ -31,10 +33,10 @@ const PageContainer = styled.div`
 
 const Title = styled.h1`
   grid-column: 1 / -1;
-
   text-align: center;
   font-size: x-large;
 `;
+
 const SidebarContainer = styled.div`
   grid-column: 1 / 2;
 `;
@@ -45,6 +47,15 @@ const Content = styled.div`
 `;
 
 const Mypage = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <>
       <SubHeader />
@@ -54,7 +65,7 @@ const Mypage = () => {
           <Sidebar />
         </SidebarContainer>
         <Content>
-          <AccountInfo />
+          {isAuthenticated && <AccountInfo />}
         </Content>
       </PageContainer>
     </>

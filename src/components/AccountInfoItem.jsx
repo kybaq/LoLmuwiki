@@ -24,28 +24,12 @@ const Value = styled.div`
   width: 100%;
 `;
 
-const EditButton = styled.a`
-  margin-left: 10px;
-  padding: 10px 15px;
-  font-size: 1em;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none;
-  &:hover {
-    background-color: #3489e4;
-  }
-`;
-
-const AccountInfoItem = ({ label, value, editable, onEdit }) => {
+const AccountInfoItem = ({ label, value }) => {
   return (
     <ItemContainer>
       <Label>{label}</Label>
       <Value>
         <span>{value}</span>
-        {editable && <EditButton href="#" onClick={onEdit}>수정하기</EditButton>}
       </Value>
     </ItemContainer>
   );

@@ -3,7 +3,7 @@ import Home from '../pages/Home';
 import Post from '../pages/Post';
 import PostViewModal from '../components/PostViewModal';
 import Mypage from '../pages/Mypage';
-import MyPosts from '../pages/MyPosts';
+import Myposts from '../pages/Myposts';
 import Login from '../pages/Login';
 
 function Router() {
@@ -17,7 +17,7 @@ function Router() {
         <Route path="post" element={<Post />} />
         {/* <Route path="/detail/:id" element={<Detail />} /> */}
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/myposts" element={<MyPosts />} />
+        <Route path="/myposts" element={<Myposts />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
