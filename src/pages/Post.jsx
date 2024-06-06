@@ -3,17 +3,8 @@ import { supabase } from '../shared/supabaseClient';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import SubHeader from '../components/SubHeader';
-import { v4 as uuidv4, v4 } from 'uuid';
-
-// 각 이미지 당, 크기를 2MB 로 제한.
-const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
-// 게시글 당 최대 이미지 2개
-const MAX_IMAGE_COUNT = 2;
-
-const StSection = styled.section`
-  /* padding: 150px 0; */
-`;
+import Header from '../components/Header';
+import { v4 } from 'uuid';
 
 const StWrapper = styled.div`
   font-family: 'Helvetica', sans-serif;
@@ -111,11 +102,18 @@ const StSubmitBtn = styled.button`
     transform: scale(1.09);
   }
 `;
+// 각 이미지 당, 크기를 2MB 로 제한.
+const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
+// 게시글 당 최대 이미지 2개
+const MAX_IMAGE_COUNT = 2;
+
+const StSection = styled.section`
+  /* padding: 150px 0; */
+`;
 
 function Post() {
-  const navigation = useNavigate();
-
-  const { id, full_name } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { id, full_name, isAuthenticated } = useSelector((state) => state.auth);
 
   // 게시글 작성
   const titleRef = useRef(null);
@@ -127,7 +125,10 @@ function Post() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   const createPosts = async (e) => {
     e.preventDefault();
@@ -156,7 +157,7 @@ function Post() {
     }
 
     alert('작성이 완료되었습니다.');
-    navigation('/');
+    navigate('/');
   };
 
   const onUploadImages = async (img) => {
@@ -213,7 +214,7 @@ function Post() {
 
   return (
     <StSection>
-      <SubHeader />
+      <Header />
       <StWrapper>
         <StTitle>게시글 작성</StTitle>
         <StForm action="" onSubmit={createPosts}>

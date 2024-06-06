@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { supabase } from '../shared/supabaseClient';
 import Sidebar from '../components/Sidebar';
-import SubHeader from '../components/SubHeader';
+import Header from '../components/Header';
+import PostViewModal from '../components/PostViewModal';
 
 const PageContainer = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const Title = styled.h1`
   margin-bottom: 40px;
   text-align: center;
   font-size: x-large;
+  align-items: start;
 `;
 
 const PostList = styled.ul`
@@ -54,11 +56,18 @@ const PostList = styled.ul`
 const PostItem = styled.li`
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 30, 83, 0.1);
+  }
 `;
 
 const Myposts = () => {
   const [posts, setPosts] = useState([]);
   const user = useSelector((state) => state.auth);
+  const [isModalOpened, setModalOpened] = useState(false);
+  const [activePost, setActivePost] = useState(null);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -79,9 +88,32 @@ const Myposts = () => {
     fetchPosts();
   }, [user.id]);
 
+  const onHandleClickPost = (post) => {
+    setActivePost(post);
+    setModalOpened(true);
+  };
+
+  useEffect(() => {
+    const clickOutside = (evt) => {
+      if (
+        isModalOpened && // 모달이 열려있으면서
+        modalRef.current && // 게시글 목록이 존재하고
+        !modalRef.current.contains(evt.target) // mousedown 이벤트 발생 대상이 게시글 목록 부분이 아니라면,
+      ) {
+        setModalOpened(false); // 모달 닫음
+      }
+    };
+
+    document.addEventListener('mousedown', clickOutside); // 이벤트 리스너 추가
+
+    return () => {
+      document.removeEventListener('mousedown', clickOutside); // 동작하고 나면 즉시 삭제
+    };
+  }, [isModalOpened]);
+
   return (
     <>
-      <SubHeader />
+      <Header />
       <PageContainer>
         <InnerContainer>
           <Sidebar />
@@ -89,12 +121,23 @@ const Myposts = () => {
             <Title>내 게시물</Title>
             <PostList>
               {posts.map((post) => (
-                <PostItem key={post.id}>{post.title}</PostItem>
+                <PostItem key={post.id} onClick={() => onHandleClickPost(post)}>
+                  {post.title}
+                </PostItem>
               ))}
             </PostList>
           </Content>
         </InnerContainer>
       </PageContainer>
+      {isModalOpened && activePost && (
+        <div ref={modalRef}>
+          <PostViewModal
+            activePost={activePost}
+            setPosts={setPosts}
+            setModalOpened={setModalOpened}
+          />
+        </div>
+      )}
     </>
   );
 };
