@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import PostDeleteButton from './PostDeleteButton';
-import { useSelector } from 'react-redux';
 import PostUpdateButton from './PostUpdateButton';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
@@ -81,13 +80,25 @@ const StBtnContainer = styled.div`
 
 const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth);
+
+  const [id, setId] = useState(null);
   const { user_id, post_id } = activePost;
-  const { id } = user;
   const [isEditable, setIsEditable] = useState(false);
   const titleRef = useRef(null);
   const contentRef = useRef(null);
   const img_path = activePost.img_path;
+
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    setId(user.id);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const updatePost = async () => {
     const { error } = await supabase

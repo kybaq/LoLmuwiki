@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { supabase } from '../shared/supabaseClient';
@@ -33,16 +33,28 @@ const ChangeButton = styled.button`
 
 const ProfilePicture = () => {
   const dispatch = useDispatch();
-  const {
-    id: userId,
-    email,
-    full_name,
-    avatar_url,
-  } = useSelector((state) => state.auth);
   const fileInputRef = useRef(null);
-  const [profileImage, setProfileImage] = useState(
-    avatar_url || 'default-avatar-url',
-  );
+  const [user_id, setUser_id] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [full_name, setFull_name] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+
+    setUser_id(user.id);
+    setEmail(user.email);
+    setFull_name(user.user_metadata.full_name);
+    setProfileImage(user.user_metadata.avatar_url);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const handleChangePicture = async (event) => {
     const file = event.target.files[0];
@@ -70,20 +82,20 @@ const ProfilePicture = () => {
 
       const publicUrl = publicUrlData.publicUrl;
 
-      // Redux 상태 업데이트
+      // 서버로 부터 얻어온 정보
       dispatch(
         login({
-          user_id: userId,
-          email: email, // 현재 사용자의 이메일
+          user_id,
+          email, // 현재 사용자의 이메일
           identity_data: {
-            full_name: full_name, // 현재 사용자의 전체 이름
+            full_name, // 현재 사용자의 전체 이름
             avatar_url: publicUrl,
           },
         }),
       );
 
       // 프로필 이미지 URL 업데이트
-      await updateUserImage(userId, publicUrl);
+      await updateUserImage(user_id, publicUrl);
 
       setProfileImage(publicUrl);
       alert('프로필 사진이 변경되었습니다.');
@@ -93,11 +105,11 @@ const ProfilePicture = () => {
     }
   };
 
-  async function updateUserImage(userId, imageUrl) {
+  async function updateUserImage(user_id, imageUrl) {
     const { data, error } = await supabase
       .from('users') // 업데이트할 테이블 지정
       .update({ avatar_url: imageUrl }) // 업데이트할 데이터 지정
-      .eq('id', userId); // 조건 지정
+      .eq('user_id', user_id); // 조건 지정
 
     if (error) {
       console.error('Error updating user avatar URL:', error);
