@@ -5,29 +5,24 @@ const ItemContainer = styled.div`
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   width: 100%;
 `;
 
 const Label = styled.label`
-  font-weight: bold;
-  margin-bottom: 8px;
   font-size: 1.2em;
   text-align: center;
   width: 100%;
-`;
-
-const Value = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  width: 100%;
+  & > span {
+    font-weight: bold;
+  }
 `;
 
 const EditButton = styled.a`
   margin-left: 10px;
-  padding: 10px 15px;
-  font-size: 1em;
+  padding: 5px 10px;
+  font-size: 0.7em;
+  align-items: center;
   color: white;
   background-color: #007bff;
   border: none;
@@ -42,11 +37,14 @@ const EditButton = styled.a`
 const AccountInfoItem = ({ label, value, editable, onEdit }) => {
   return (
     <ItemContainer>
-      <Label>{label}</Label>
-      <Value>
-        <span>{value}</span>
-        {editable && <EditButton href="#" onClick={onEdit}>수정하기</EditButton>}
-      </Value>
+      <Label>
+        <span>{label}:ㅤ</span> {value}
+        {editable && (
+          <EditButton href="#" onClick={onEdit}>
+            수정하기
+          </EditButton>
+        )}
+      </Label>
     </ItemContainer>
   );
 };
