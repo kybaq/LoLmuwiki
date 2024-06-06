@@ -19,6 +19,7 @@ function Router() {
         <Route path="/myposts" element={<MyPosts />} />
         <Route path="/reset" element={<ResetPassword />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/*" element={<Home />}></Route>
       </Routes>
     </BrowserRouter>
   );
