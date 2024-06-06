@@ -110,7 +110,7 @@ const StSubmitBtn = styled.button`
 
 function Post() {
   const navigate = useNavigate();
-  const { id, full_name, isAuthenticated } = useSelector((state) => state.auth);
+  const { id, full_name } = useSelector((state) => state.auth);
 
   // 게시글 작성
   const titleRef = useRef(null);
