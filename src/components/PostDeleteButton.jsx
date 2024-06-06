@@ -23,7 +23,7 @@ const StBtn = styled.button`
 
 function PostDeleteButton({ user_id, post_id, setPosts, setModalOpened }) {
   //
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const deletePost = async () => {
     const { data, error } = await supabase
@@ -37,13 +37,11 @@ function PostDeleteButton({ user_id, post_id, setPosts, setModalOpened }) {
       return;
     } else {
       setPosts((prevPosts) =>
-        prevPosts.filter(
-          (post) => post.post_id !== post_id && post.user_id !== user_id,
-        ),
+        prevPosts.filter((post) => post.post_id !== post_id),
       );
       setModalOpened(false);
       alert('성공적으로 삭제되었습니다.');
-      navigation('/');
+      navigate('/');
       return;
     }
   };

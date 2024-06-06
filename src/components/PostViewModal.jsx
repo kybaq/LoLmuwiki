@@ -63,6 +63,7 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
   const { id } = user;
   const [isEditable, setIsEditable] = useState(false);
   const contentRef = useRef(null);
+  const img_path = activePost.img_path;
 
   const updatePost = async () => {
     const { data, error } = await supabase
@@ -100,6 +101,18 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
           defaultValue={activePost.content}
           ref={contentRef}
         />
+        <div>
+          {img_path.map((elem) => (
+            <img
+              key={elem.data.publicUrl}
+              style={{
+                width: '400px',
+              }}
+              src={elem.data.publicUrl}
+              alt=""
+            />
+          ))}
+        </div>
       </div>
       {user_id === id ? (
         <StBtnContainer>

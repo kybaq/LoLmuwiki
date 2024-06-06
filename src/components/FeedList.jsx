@@ -86,12 +86,6 @@ const FeedList = () => {
   const [posts, setPosts] = useState([]);
   const navigation = useNavigate();
 
-  // 실제 클릭한 Post 선택
-  const [activePost, setActivePost] = useState(null);
-
-  // 모달 영역 지정을 위한 변수
-  const modalRef = useRef(null);
-
   const [isModalOpened, setModalOpened] = useState(false);
 
   useEffect(() => {
@@ -114,6 +108,13 @@ const FeedList = () => {
     setModalOpened(true); // 모달 창 열기
     setActivePost(post); // 클릭한 게시글
   };
+
+  // 실제 클릭한 Post 선택
+  // NOTE: 현재 2-3 단계 이상 깊이 props 전달이 이루어 지고 있음. 간단히 context 로 관리할 필요가 있음.
+  const [activePost, setActivePost] = useState(null);
+
+  // 모달 영역 지정을 위한 변수
+  const modalRef = useRef(null);
 
   // 실제 글 목록과, 모달 부분을 제외한 영역을 클릭한 경우 모달 닫힘
   useEffect(() => {
