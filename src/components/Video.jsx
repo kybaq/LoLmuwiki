@@ -44,7 +44,11 @@ const Video = () => {
   const navigation = useNavigate();
 
   const onHandleWriteBtn = () => {
-    // 로그인 상태일 때만 가능하도록 설정필요.
+    if (localStorage.getItem('isLoggedIn')) navigation('post');
+    else {
+      alert('로그인을 해주세요.');
+      return;
+    }
   };
 
   return (
@@ -55,7 +59,7 @@ const Video = () => {
           type="video/webm"
         />
       </StVideo>
-      <StBtn onClick={() => navigation('post')}>글 쓰기</StBtn>
+      <StBtn onClick={onHandleWriteBtn}>글 쓰기</StBtn>
     </Wrapper>
   );
 };

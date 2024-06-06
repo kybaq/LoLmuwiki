@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import AccountInfo from '../components/AccountInfo';
-import SubHeader from '../components/SubHeader';
+import Header from '../components/Header';
 
 const PageContainer = styled.div`
   display: grid;
@@ -48,7 +48,7 @@ const Content = styled.div`
 const Mypage = () => {
   return (
     <>
-      <SubHeader />
+      <Header />
       <PageContainer>
         <Title>내 계정</Title>
         <SidebarContainer>

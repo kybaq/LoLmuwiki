@@ -3,8 +3,8 @@ import { supabase } from '../shared/supabaseClient';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import SubHeader from '../components/SubHeader';
-import { v4 as uuidv4, v4 } from 'uuid';
+import Header from '../components/Header';
+import { v4 } from 'uuid';
 
 // 각 이미지 당, 크기를 2MB 로 제한.
 const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
@@ -213,7 +213,7 @@ function Post() {
 
   return (
     <StSection>
-      <SubHeader />
+      <Header />
       <StWrapper>
         <StTitle>게시글 작성</StTitle>
         <StForm action="" onSubmit={createPosts}>
