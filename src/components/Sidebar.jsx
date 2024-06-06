@@ -51,8 +51,10 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem('isLoggedIn');
       await supabase.auth.signOut();
       dispatch(logout());
+      alert('로그아웃 되었습니다');
       navigate('/');
     } catch (error) {
       console.error('Error logging out:', error.message);

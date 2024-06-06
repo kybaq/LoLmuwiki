@@ -34,7 +34,7 @@ const StTitle = styled.h1`
   font-size: x-large;
 `;
 
-const StTextArea = styled.textarea`
+const StContentDiv = styled.div`
   width: 700px;
   height: 500px;
   padding: 15px;
@@ -66,7 +66,7 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
   const img_path = activePost.img_path;
 
   const updatePost = async () => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('posts')
       .update({ content: contentRef.current.value })
       .eq('post_id', post_id);
@@ -96,12 +96,11 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
     <StModal $active={!!activePost}>
       <StTitle>{activePost.title}</StTitle>
       <div>
-        <StTextArea
-          readOnly={!isEditable}
-          defaultValue={activePost.content}
+        <StContentDiv
+          contentEditable={isEditable}
           ref={contentRef}
-        />
-        <div>
+          defaultValue={activePost.content}
+        >
           {img_path.map((elem) => (
             <img
               key={elem.data.publicUrl}
@@ -112,7 +111,8 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
               alt=""
             />
           ))}
-        </div>
+          {activePost.content}
+        </StContentDiv>
       </div>
       {user_id === id ? (
         <StBtnContainer>
