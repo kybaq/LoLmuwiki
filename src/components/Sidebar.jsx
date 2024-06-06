@@ -54,12 +54,13 @@ const Sidebar = () => {
       localStorage.removeItem('isLoggedIn');
       await supabase.auth.signOut();
       dispatch(logout());
+      localStorage.removeItem('isLoggedIn');
       alert('로그아웃 되었습니다');
       navigate('/');
     } catch (error) {
       console.error('Error logging out:', error.message);
     }
-  };
+  };  
 
   return (
     <SidebarContainer>
