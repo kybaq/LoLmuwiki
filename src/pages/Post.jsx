@@ -10,14 +10,13 @@ import { v4 as uuidv4, v4 } from 'uuid';
 const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
 
 const StSection = styled.section`
-  padding: 150px 0;
+  /* padding: 150px 0; */
 `;
 
 const StWrapper = styled.div`
   font-family: 'Helvetica', sans-serif;
   line-height: 1.5;
   justify-content: center;
-  gap: 200px;
   width: 800px;
   height: 750px;
   background-color: rgba(0, 30, 83, 0.35);
@@ -26,11 +25,17 @@ const StWrapper = styled.div`
   padding: 15px;
   color: #9a9999;
   border-radius: 8px;
-  margin: 20px auto;
+  margin: 150px auto 0;
   border: none;
   color: white;
   box-shadow: 0 0 1px #8d8d8d, 0 0 3px #8d8d8d, 0 0 6px #8d8d8d,
     0 0 30px #8d8d8d;
+`;
+
+const StTitle = styled.h1`
+  font-size: 24px;
+  margin: 20px;
+  text-align: center;
 `;
 
 const StForm = styled.form`
@@ -79,7 +84,7 @@ const StFileUpBtn = styled.label`
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  margin: 10px 0 10px 0;
+  margin-top: 10px;
   &:hover {
     transform: scale(1.09);
   }
@@ -117,6 +122,10 @@ function Post() {
 
   // 게시글에 업로드하는 이미지
   const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const createPosts = async (e) => {
     e.preventDefault();
@@ -200,8 +209,8 @@ function Post() {
     <StSection>
       <SubHeader />
       <StWrapper>
+        <StTitle>게시글 작성</StTitle>
         <StForm action="" onSubmit={createPosts}>
-          <h1>게시글 작성</h1>
           <StTitleInput type="text" placeholder="제목" ref={titleRef} />
           <StContentInput contentEditable="true" ref={contentRef} />
           <StFileInputWrapper ref={imgRef}>
