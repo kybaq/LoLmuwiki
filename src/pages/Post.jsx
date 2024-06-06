@@ -120,13 +120,6 @@ function Post() {
   // 게시글에 업로드하는 이미지
   const [images, setImages] = useState([]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
-
   const createPosts = async (e) => {
     e.preventDefault();
     if (!titleRef.current.value || !contentRef.current.innerHTML) {
