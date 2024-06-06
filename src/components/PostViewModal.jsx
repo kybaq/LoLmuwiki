@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import PostUpdateButton from './PostUpdateButton';
 import { useRef, useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 const StModal = styled.section`
   font-family: 'Helvetica', sans-serif;
@@ -28,13 +29,28 @@ const StModal = styled.section`
   z-index: 1000;
 `;
 
-const StTitle = styled.h1`
+const StTitle = styled.textarea`
   margin-bottom: 40px;
   text-align: center;
   font-size: x-large;
 `;
 
-const StContentDiv = styled.div`
+// const StTextArea = styled.textarea`
+//   width: 700px;
+//   height: 500px;
+//   padding: 15px;
+//   font-size: 1em;
+//   color: black;
+//   background-color: white;
+//   border-radius: 8px;
+//   border: none;
+//   resize: none;
+//   margin-bottom: 40px;
+//   overflow-y: scroll;
+//   scrollbar-color: #b3b3b3 transparent;
+// `;
+
+const StDiv = styled.div`
   width: 700px;
   height: 500px;
   padding: 15px;
@@ -58,17 +74,22 @@ const StBtnContainer = styled.div`
 `;
 
 const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth);
   const { user_id, post_id } = activePost;
   const { id } = user;
   const [isEditable, setIsEditable] = useState(false);
+  const titleRef = useRef(null);
   const contentRef = useRef(null);
   const img_path = activePost.img_path;
 
   const updatePost = async () => {
     const { error } = await supabase
       .from('posts')
-      .update({ content: contentRef.current.value })
+      .update({
+        title: titleRef.current.value,
+        content: contentRef.current.value,
+      })
       .eq('post_id', post_id);
 
     if (error) {
@@ -79,7 +100,11 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
         post.post_id === post_id
-          ? { ...post, content: contentRef.current.value }
+          ? {
+              ...post,
+              title: titleRef.current.value,
+              content: contentRef.current.value,
+            }
           : post,
       ),
     );
@@ -90,17 +115,18 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
     setIsEditable(false);
     setModalOpened(false);
     alert('수정완료되었습니다.');
+    navigate('/');
   };
 
   return (
     <StModal $active={!!activePost}>
-      <StTitle>{activePost.title}</StTitle>
-      <div>
-        <StContentDiv
-          contentEditable={isEditable}
-          ref={contentRef}
-          defaultValue={activePost.content}
-        >
+      <StTitle
+        readOnly={!isEditable}
+        defaultValue={activePost.title}
+        ref={titleRef}
+      />
+      <StDiv>
+        <div>
           {img_path.map((elem) => (
             <img
               key={elem.data.publicUrl}
@@ -111,9 +137,13 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
               alt=""
             />
           ))}
-          {activePost.content}
-        </StContentDiv>
-      </div>
+        </div>
+        <textarea
+          readOnly={!isEditable}
+          defaultValue={activePost.content}
+          ref={contentRef}
+        />
+      </StDiv>
       {user_id === id ? (
         <StBtnContainer>
           <PostDeleteButton
