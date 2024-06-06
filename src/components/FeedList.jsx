@@ -97,7 +97,6 @@ const FeedList = () => {
   useEffect(() => {
     const getPosts = async () => {
       const { data, error } = await supabase.from('posts').select();
-      console.log(data);
 
       if (error) {
         console.error('Error fetching posts:', error);
