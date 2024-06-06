@@ -5,18 +5,56 @@ import PostUpdateButton from './PostUpdateButton';
 import { useRef, useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
 
-const Stmodal = styled.section`
-  /* display: ${(props) => (props.$active ? 'flex' : 'none')}; */
+const StModal = styled.section`
+  font-family: 'Helvetica', sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 650px;
-  height: 850px;
-  background-color: blue;
+  width: 800px;
+  height: 800px;
+  background-color: rgba(0, 24, 64, 0.85);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  color: white;
+  border-radius: 8px;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); // x, y 모두 -50% 만큼
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+  overflow-y: none;
+  z-index: 1000;
+`;
+
+const StTitle = styled.h1`
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: x-large;
+`;
+
+const StTextArea = styled.textarea`
+  width: 700px;
+  height: 500px;
+  padding: 15px;
+  font-size: 1em;
+  color: black;
+  background-color: white;
+  border-radius: 8px;
+  border: none;
+  resize: none;
+  margin-bottom: 40px;
+  overflow-y: scroll;
+  scrollbar-color: #b3b3b3 transparent;
+`;
+
+const StBtnContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  gap: 20px;
 `;
 
 const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
@@ -46,38 +84,39 @@ const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
     );
   };
 
-  // 완료 버튼의 이벤트 핸들러임. 현재 구조가 복잡해져서 전역 상태로 관리할 필요가 있을 듯.
   const onClickCompleteBtn = async () => {
     await updatePost();
     setIsEditable(false);
+    setModalOpened(false);
+    alert('수정완료되었습니다.');
   };
 
   return (
-    <Stmodal>
-      <h1>{activePost.title}</h1>
+    <StModal $active={!!activePost}>
+      <StTitle>{activePost.title}</StTitle>
       <div>
-        <textarea
+        <StTextArea
           readOnly={!isEditable}
           defaultValue={activePost.content}
           ref={contentRef}
         />
       </div>
       {user_id === id ? (
-        <>
-          <PostUpdateButton
-            isEditable={isEditable}
-            setIsEditable={setIsEditable}
-            onClickCompleteBtn={onClickCompleteBtn}
-          />
+        <StBtnContainer>
           <PostDeleteButton
             user_id={user_id}
             post_id={post_id}
             setPosts={setPosts}
             setModalOpened={setModalOpened}
           />
-        </>
+          <PostUpdateButton
+            isEditable={isEditable}
+            setIsEditable={setIsEditable}
+            onClickCompleteBtn={onClickCompleteBtn}
+          />
+        </StBtnContainer>
       ) : null}
-    </Stmodal>
+    </StModal>
   );
 };
 
