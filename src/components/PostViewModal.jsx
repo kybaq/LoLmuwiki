@@ -37,7 +37,7 @@ const StTitle = styled.textarea`
   font-size: x-large;
   border-radius: 8px;
   text-align: left;
-  overflow-x: scroll; /* Enable horizontal scrolling */
+  overflow-x: scroll;
   overflow-y: hidden;
   resize: none;
 `;

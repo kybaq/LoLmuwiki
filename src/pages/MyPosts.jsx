@@ -45,6 +45,7 @@ const Title = styled.h1`
   margin-bottom: 40px;
   text-align: center;
   font-size: x-large;
+  align-items: start;
 `;
 
 const PostList = styled.ul`
