@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { supabase } from '../shared/supabaseClient';
 import Sidebar from '../components/Sidebar';
-import SubHeader from '../components/SubHeader';
+import Header from '../components/Header';
 import PostViewModal from '../components/PostViewModal';
 
 const PageContainer = styled.div`
@@ -112,7 +112,7 @@ const Myposts = () => {
 
   return (
     <>
-      <SubHeader />
+      <Header />
       <PageContainer>
         <InnerContainer>
           <Sidebar />

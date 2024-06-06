@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AccountInfo from '../components/AccountInfo';
-import SubHeader from '../components/SubHeader';
+import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 
 const PageContainer = styled.div`
@@ -59,15 +59,13 @@ const Mypage = () => {
 
   return (
     <>
-      <SubHeader />
+      <Header />
       <PageContainer>
         <Title>내 계정</Title>
         <SidebarContainer>
           <Sidebar />
         </SidebarContainer>
-        <Content>
-          {isAuthenticated && <AccountInfo />}
-        </Content>
+        <Content>{isAuthenticated && <AccountInfo />}</Content>
       </PageContainer>
     </>
   );
