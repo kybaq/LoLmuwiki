@@ -12,11 +12,9 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route path="detail/:id" element={<PostViewModal />} />
-          {/* Detail 이란 이름으로 바꾸기 */}
+          <Route path="/detail/:id" element={<PostViewModal />} />
         </Route>
-        <Route path="post" element={<Post />} />
-        {/* <Route path="/detail/:id" element={<Detail />} /> */}
+        <Route path="/post" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myposts" element={<MyPosts />} />
         <Route path="/reset" element={<ResetPassword />} />
