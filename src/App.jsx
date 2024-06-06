@@ -6,7 +6,6 @@ import Router from './shared/Router';
 import GlobalStyle from './GlobalStyle';
 
 const App = () => {
-  // header완성되면 이동할 예정
   const queryClient = useQueryClient();
   const refreshToken = async () => {
     const { data, error } = await supabase.auth.refreshSession();
@@ -47,6 +46,7 @@ const App = () => {
     queryFn: refreshToken,
     enabled: true,
   });
+
   useEffect(() => {
     const fetchData = async () => {
       if (await checkTokenExpiry()) {
@@ -55,12 +55,14 @@ const App = () => {
     };
     fetchData();
   }, [queryClient]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       queryClient.invalidateQueries(['refreshToken']);
     }, 15000);
     return () => clearInterval(interval);
   }, [queryClient]);
+
   return (
     <>
       <GlobalStyle />
