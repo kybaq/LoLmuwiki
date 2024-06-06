@@ -53,11 +53,13 @@ const Sidebar = () => {
     try {
       await supabase.auth.signOut();
       dispatch(logout());
+      localStorage.removeItem('isLoggedIn');
       navigate('/');
     } catch (error) {
       console.error('Error logging out:', error.message);
     }
   };
+  
 
   return (
     <SidebarContainer>

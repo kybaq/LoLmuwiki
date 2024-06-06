@@ -33,14 +33,12 @@ const ChangeButton = styled.button`
 
 const ProfilePicture = () => {
   const dispatch = useDispatch();
-  const { avatar_url, email, } = useSelector(
-    (state) => state.auth,
-  );
-  const [profileImage, setProfileImage] = useState(avatar_url);
+  const { avatar_url, id: user_id } = useSelector((state) => state.auth);
   const fileInputRef = useRef(null);
+  const [profileImage, setProfileImage] = useState(avatar_url);
 
-  const handleChangePicture = async () => {
-    const file = fileInputRef.current.files[0];
+  const handleChangePicture = async (event) => {
+    const file = event.target.files[0];
     if (!file) return;
 
     try {
@@ -48,41 +46,43 @@ const ProfilePicture = () => {
       const uniqueFileName = `${user_id}_${Date.now()}.${fileExt}`;
       const filePath = `public/${uniqueFileName}`;
 
-      await supabase.storage
+      const { data, error } = await supabase.storage
         .from('avatars')
         .upload(filePath, file, {
-          cacheControl: '3600',
-          contentType: file.type 
+          cacheControl: 'no-cache', // 캐시 헤더 추가
+          contentType: file.type,
         });
 
       if (error) {
         throw error;
       }
 
-      const { publicURL, error: urlError } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filePath);
+      if (!data || !data.url) {
+        throw new Error('Image URL not found');
+      }
 
-      const localImageUrl = URL.createObjectURL(file);
-      setProfileImage(localImageUrl);
-      
+      const imageUrl = `${data.url}?timestamp=${Date.now()}`; // 새 URL 생성
+      setProfileImage(imageUrl); // 프로필 이미지 URL 업데이트
+
       // 데이터베이스 업데이트
-      await supabase
+      const { updateError } = await supabase
         .from('users')
-        .update({ avatar_url: publicURL })
-        .eq('user_id', user_id);
+        .update({ avatar_url: imageUrl })
+        .eq('id', user_id);
+
+      if (updateError) {
+        throw updateError;
+      }
 
       // Redux 상태 업데이트
-      dispatch(login({ user_id, email, avatar_url: publicURL }));
+      dispatch(login({ id: user_id, avatar_url: imageUrl }));
+
+      alert('프로필 사진이 변경되었습니다.');
     } catch (error) {
       console.error('Error uploading file:', error.message);
-      alert('프로필 사진이 변경 되었습니다.');
+      alert('프로필 사진 변경에 실패했습니다.');
     }
   };
-
-  useEffect(() => {
-    setProfileImage(avatar_url);
-  }, [avatar_url]);
 
   return (
     <ProfileContainer>
