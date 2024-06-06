@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SubHeader from '../components/SubHeader';
+import { v4 as uuidv4, v4 } from 'uuid';
 
 // 각 이미지 당, 크기를 2MB 로 제한.
 const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
@@ -147,6 +148,25 @@ function Post() {
     navigation('/');
   };
 
+  const onUploadImages = async (img) => {
+    const { data, error } = await supabase.storage
+      .from('posts_img')
+      .upload(`public/${v4()}`, img, {
+        // 업로드하는 이미지를 모두 unique 하게 만듦
+        contentType: 'image/',
+      });
+    if (error) {
+      console.error('Error: ', error);
+      return;
+    } else {
+      // 이미지 업로드가 성공적으로 이루어지면 public url 을 얻어와 저장.
+      const publicUrl = supabase.storage
+        .from('posts_img')
+        .getPublicUrl(data.path);
+      setImages((prev) => [...prev, publicUrl]);
+    }
+  };
+
   function handleChange(evt) {
     const FileList = evt.target.files;
     console.log(evt.target.files);
@@ -163,8 +183,9 @@ function Post() {
         const imgURL = URL.createObjectURL(img);
         const imgElement = document.createElement('img');
         imgElement.src = imgURL;
-        imgElement.style.maxWidth = '8%';
+        imgElement.style.maxWidth = '10%';
         contentRef.current.appendChild(imgElement); // 이미지를 첨부한 경우, 자식 요소로 추가
+        onUploadImages(img);
       } else if (img && img.size > MAX_IMAGE_SIZE_BYTES) {
         // 파일을 업로드했지만 2MB 이상일 경우
         alert(
