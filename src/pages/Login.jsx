@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { supabase } from '../shared/supabaseClient';
-import { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SignUpForm from '../components/SignUpForm';
 import styled from 'styled-components';
