@@ -74,7 +74,7 @@ const Myposts = () => {
         const { data, error } = await supabase
           .from('posts')
           .select('*')
-          .eq('user_id', user.id); // user_id 대신 id를 기반으로 불러오기
+          .eq('user_id', user.id); 
 
         if (error) {
           console.error('Error fetching posts:', error.message);
@@ -95,18 +95,18 @@ const Myposts = () => {
   useEffect(() => {
     const clickOutside = (evt) => {
       if (
-        isModalOpened && // 모달이 열려있으면서
-        modalRef.current && // 게시글 목록이 존재하고
-        !modalRef.current.contains(evt.target) // mousedown 이벤트 발생 대상이 게시글 목록 부분이 아니라면,
+        isModalOpened && 
+        modalRef.current && 
+        !modalRef.current.contains(evt.target) 
       ) {
-        setModalOpened(false); // 모달 닫음
+        setModalOpened(false); 
       }
     };
 
-    document.addEventListener('mousedown', clickOutside); // 이벤트 리스너 추가
+    document.addEventListener('mousedown', clickOutside); 
 
     return () => {
-      document.removeEventListener('mousedown', clickOutside); // 동작하고 나면 즉시 삭제
+      document.removeEventListener('mousedown', clickOutside); 
     };
   }, [isModalOpened]);
 

@@ -96,7 +96,6 @@ const Header = () => {
     navigate('/mypage');
   };
 
-  // 시승님
   return (
     <>
       <StContainer>

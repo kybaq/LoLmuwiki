@@ -50,7 +50,7 @@ function AuthCallback() {
         dispatch(login(session.user.identities[0]));
         console.log('session dispatch');
         await saveUserToDatabase(session.user);
-        navigate('/'); // 리다이렉트할 경로
+        navigate('/'); 
       }
     };
 

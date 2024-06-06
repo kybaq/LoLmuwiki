@@ -8,8 +8,7 @@ function ForgotPassword() {
 
   async function handleResetPassword(e) {
     e.preventDefault();
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      // redirectTo: 'http://localhost:5173/reset',
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {      
       redirectTo: `${window.location.origin}/reset`,
     });
 

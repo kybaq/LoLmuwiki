@@ -4,23 +4,19 @@ import Post from '../pages/Post';
 import PostViewModal from '../components/PostViewModal';
 import MyPage from '../pages/MyPage';
 import MyPosts from '../pages/MyPosts';
-import ResetPassword from '../components/ResetPassword';
-import AuthCallback from '../shared/AuthCallback';
+import Login from '../pages/Login';
 
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route path="detail/:id" element={<PostViewModal />} />
-          {/* Detail 이란 이름으로 바꾸기 */}
+          <Route path="detail/:id" element={<PostViewModal />} />          
         </Route>
-        <Route path="post" element={<Post />} />
-        {/* <Route path="/detail/:id" element={<Detail />} /> */}
+        <Route path="post" element={<Post />} />        
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myposts" element={<MyPosts />} />
-        <Route path="/reset" element={<ResetPassword />} />
-        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

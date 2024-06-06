@@ -46,7 +46,6 @@ function SignUpForm({ setIsRegistered }) {
       console.log(error);
       return;
     } else if (data) {
-      // setMessage('입력하신 이메일 주소로 confirm email이 전송되었습니다');
       setIsRegistered(true); // confirm email 횟수 초과 시 사용
     }
   }
@@ -68,7 +67,6 @@ function SignUpForm({ setIsRegistered }) {
         ref={passwordRef}
       />
       <SignBtn>가입</SignBtn>
-      {/* {message && message} */}
     </SignForm>
   );
 }

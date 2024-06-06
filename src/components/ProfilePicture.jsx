@@ -53,7 +53,6 @@ const ProfilePicture = () => {
       const uniqueFileName = `profile_${Date.now()}.${fileExt}`;
       const filePath = `public/${uniqueFileName}`;
 
-      // 스토리지에 이미지 업로드
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('avatars')
         .upload(filePath, file, {
@@ -63,26 +62,23 @@ const ProfilePicture = () => {
 
       if (uploadError) throw uploadError;
 
-      // 업로드된 이미지의 public URL 가져오기
       const { data: publicUrlData } = supabase.storage
         .from('avatars')
         .getPublicUrl(filePath);
 
       const publicUrl = publicUrlData.publicUrl;
 
-      // Redux 상태 업데이트
       dispatch(
         login({
           user_id: userId,
-          email: email, // 현재 사용자의 이메일
+          email: email, 
           identity_data: {
-            full_name: full_name, // 현재 사용자의 전체 이름
+            full_name: full_name, 
             avatar_url: publicUrl,
           },
         }),
       );
 
-      // 프로필 이미지 URL 업데이트
       await updateUserImage(userId, publicUrl);
 
       setProfileImage(publicUrl);
@@ -95,9 +91,9 @@ const ProfilePicture = () => {
 
   async function updateUserImage(userId, imageUrl) {
     const { data, error } = await supabase
-      .from('users') // 업데이트할 테이블 지정
-      .update({ avatar_url: imageUrl }) // 업데이트할 데이터 지정
-      .eq('id', userId); // 조건 지정
+      .from('users') 
+      .update({ avatar_url: imageUrl }) 
+      .eq('id', userId); 
 
     if (error) {
       console.error('Error updating user avatar URL:', error);

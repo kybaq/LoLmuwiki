@@ -102,7 +102,6 @@ const FeedList = () => {
   }, []);
 
   // 게시글 클릭 시 모달 창 출력
-
   const onHandleClickPost = (post) => {
     navigation(`detail/${post.id}`); // 상세페이지로 라우팅
     setModalOpened(true); // 모달 창 열기

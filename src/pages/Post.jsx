@@ -102,25 +102,24 @@ const StSubmitBtn = styled.button`
     transform: scale(1.09);
   }
 `;
-// 각 이미지 당, 크기를 2MB 로 제한.
+
 const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
-// 게시글 당 최대 이미지 2개
+
 const MAX_IMAGE_COUNT = 2;
 
 const StSection = styled.section`
-  /* padding: 150px 0; */
+
 `;
 
 function Post() {
   const navigate = useNavigate();
   const { id, full_name, isAuthenticated } = useSelector((state) => state.auth);
 
-  // 게시글 작성
+
   const titleRef = useRef(null);
   const imgRef = useRef(null);
   const contentRef = useRef(null);
 
-  // 게시글에 업로드하는 이미지
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -187,28 +186,25 @@ function Post() {
       return;
     }
 
-    const imgs = []; // File 객체 중, 진짜 파일 정보만 가져오기 위해
+    const imgs = []; 
 
     for (const key in FileList) {
-      if (typeof FileList[key] === 'object') imgs.push(FileList[key]); // 실제 파일 객체라면 추가
+      if (typeof FileList[key] === 'object') imgs.push(FileList[key]); 
     }
 
     imgs.forEach((img) => {
       if (img && img.size <= MAX_IMAGE_SIZE_BYTES) {
-        // 2MB 이하의 이미지만 업로드 받음.
         const imgURL = URL.createObjectURL(img);
         const imgElement = document.createElement('img');
         imgElement.src = imgURL;
         imgElement.style.maxWidth = '10%';
-        contentRef.current.appendChild(imgElement); // 이미지를 첨부한 경우, 자식 요소로 추가
-        onUploadImages(img);
+        contentRef.current.appendChild(imgElement); 
       } else if (img && img.size > MAX_IMAGE_SIZE_BYTES) {
-        // 파일을 업로드했지만 2MB 이상일 경우
+
         alert(
           '업로드한 이미지의 크기가 너무 큽니다. 하나의 이미지 당 크기는 2MB 까지만 허용합니다.',
         );
       }
-      // 파일을 업로드하지 않은 경우에는 아무 동작하지 않음.
     });
   }
 
