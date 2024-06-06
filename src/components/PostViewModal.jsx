@@ -35,21 +35,6 @@ const StTitle = styled.textarea`
   font-size: x-large;
 `;
 
-// const StTextArea = styled.textarea`
-//   width: 700px;
-//   height: 500px;
-//   padding: 15px;
-//   font-size: 1em;
-//   color: black;
-//   background-color: white;
-//   border-radius: 8px;
-//   border: none;
-//   resize: none;
-//   margin-bottom: 40px;
-//   overflow-y: scroll;
-//   scrollbar-color: #b3b3b3 transparent;
-// `;
-
 const StDiv = styled.div`
   width: 700px;
   height: 500px;
