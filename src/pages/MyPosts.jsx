@@ -64,18 +64,32 @@ const PostItem = styled.li`
 
 const Myposts = () => {
   const [posts, setPosts] = useState([]);
-  const user = useSelector((state) => state.auth);
+  const [user_id, setUser_id] = useState(null);
   const [isModalOpened, setModalOpened] = useState(false);
   const [activePost, setActivePost] = useState(null);
   const modalRef = useRef(null);
 
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+
+    setUser_id(user.id);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   useEffect(() => {
     const fetchPosts = async () => {
-      if (user.id) {
+      if (user_id) {
         const { data, error } = await supabase
           .from('posts')
           .select('*')
-          .eq('user_id', user.id); // user_id 대신 id를 기반으로 불러오기
+          .eq('user_id', user_id); // user_id 대신 id를 기반으로 불러오기
 
         if (error) {
           console.error('Error fetching posts:', error.message);
@@ -86,7 +100,7 @@ const Myposts = () => {
     };
 
     fetchPosts();
-  }, [user.id]);
+  }, [user_id]);
 
   const onHandleClickPost = (post) => {
     setActivePost(post);
@@ -121,7 +135,10 @@ const Myposts = () => {
             <Title>내 게시물</Title>
             <PostList>
               {posts.map((post) => (
-                <PostItem key={post.id} onClick={() => onHandleClickPost(post)}>
+                <PostItem
+                  key={post.post_id}
+                  onClick={() => onHandleClickPost(post)}
+                >
                   {post.title}
                 </PostItem>
               ))}

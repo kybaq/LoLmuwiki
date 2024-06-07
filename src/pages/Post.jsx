@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -109,8 +108,25 @@ const StSubmitBtn = styled.button`
 `;
 
 function Post() {
+  const [user_id, setUser_id] = useState(null);
+  const [nickname, setNickname] = useState(null);
+
   const navigate = useNavigate();
-  const { id, full_name } = useSelector((state) => state.auth);
+
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+
+    setUser_id(user.id);
+    setNickname(user.user_metadata.full_name);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   // 게시글 작성
   const titleRef = useRef(null);
@@ -132,8 +148,8 @@ function Post() {
       .insert([
         {
           title: titleRef.current.value,
-          user_id: id,
-          nickname: full_name,
+          user_id,
+          nickname,
           img_path: images,
           content: contentRef.current.innerText,
         },
