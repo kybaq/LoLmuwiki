@@ -143,7 +143,7 @@ LoLmuwiki                                                          //
 
    - 게시글의 정보를 다루는 `posts` 테이블에서, img_path 라는 column 이 존재함.
    - 이는 단순히 게시물이 불러올 이미지의 publicUrl 만 지닌 상태임.
-     ![posts 테이블의 img_path](./posts_img_path.png)
+   - ![posts 테이블의 img_path](./posts_img_path.png)
    - 삭제나 수정을 할 이미지를 구분할 수 있어야하는데, 이러한 구조에서는 경로를 덮어씌우는 것 말고는 불가능해 제외함
    - 이미지를 식별할 수 있는 별도의 인덱스 같은 것이 필요해 보임.
 
