@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import AccountInfo from '../components/AccountInfo';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
@@ -48,15 +45,6 @@ const Content = styled.div`
 `;
 
 const Mypage = () => {
-  const navigate = useNavigate();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/');
-    }
-  }, [isAuthenticated, navigate]);
-
   return (
     <>
       <Header />
@@ -65,7 +53,9 @@ const Mypage = () => {
         <SidebarContainer>
           <Sidebar />
         </SidebarContainer>
-        <Content>{isAuthenticated && <AccountInfo />}</Content>
+        <Content>
+          <AccountInfo />
+        </Content>
       </PageContainer>
     </>
   );

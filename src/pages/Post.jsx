@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { v4 } from 'uuid';
+
+// 각 이미지 당, 크기를 2MB 로 제한.
+const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
+// 게시글 당 최대 이미지 2개
+const MAX_IMAGE_COUNT = 2;
 
 const StWrapper = styled.div`
   font-family: 'Helvetica', sans-serif;
@@ -103,31 +107,19 @@ const StSubmitBtn = styled.button`
   }
 `;
 
-const MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2;
-
-const MAX_IMAGE_COUNT = 2;
-
-const StSection = styled.section`
-
-`;
-
 function Post() {
+  const [user_id, setUser_id] = useState(null);
+  const [nickname, setNickname] = useState(null);
+
   const navigate = useNavigate();
   const { id, full_name, isAuthenticated } = useSelector((state) => state.auth);
 
-
+  // 게시글 작성
   const titleRef = useRef(null);
   const imgRef = useRef(null);
   const contentRef = useRef(null);
 
   const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
 
   const createPosts = async (e) => {
     e.preventDefault();
@@ -141,8 +133,8 @@ function Post() {
       .insert([
         {
           title: titleRef.current.value,
-          user_id: id,
-          nickname: full_name,
+          user_id,
+          nickname,
           img_path: images,
           content: contentRef.current.innerText,
         },
@@ -209,7 +201,7 @@ function Post() {
   }
 
   return (
-    <StSection>
+    <section>
       <Header />
       <StWrapper>
         <StTitle>게시글 작성</StTitle>
@@ -230,7 +222,7 @@ function Post() {
           <StSubmitBtn>글 작성</StSubmitBtn>
         </StForm>
       </StWrapper>
-    </StSection>
+    </section>
   );
 }
 

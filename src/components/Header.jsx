@@ -82,6 +82,7 @@ const Header = () => {
       await supabase.auth.signOut();
       setIsLogin(false);
       alert('로그아웃 되었습니다');
+      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error.message);
     }

@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import PostDeleteButton from './PostDeleteButton';
-import { useSelector } from 'react-redux';
 import PostUpdateButton from './PostUpdateButton';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../shared/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,9 +29,16 @@ const StModal = styled.section`
 `;
 
 const StTitle = styled.textarea`
+  max-height: 40px;
+  width: 700px;
   margin-bottom: 40px;
   text-align: center;
   font-size: x-large;
+  border-radius: 8px;
+  text-align: left;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  resize: none;
 `;
 
 const StDiv = styled.div`
@@ -45,9 +51,23 @@ const StDiv = styled.div`
   border-radius: 8px;
   border: none;
   resize: none;
-  margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 30px;
   overflow-y: scroll;
   scrollbar-color: #b3b3b3 transparent;
+
+  img {
+    max-width: 250px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    border: none;
+    resize: none;
+    width: 690px;
+    height: 220px;
+  }
 `;
 
 const StBtnContainer = styled.div`
@@ -60,13 +80,25 @@ const StBtnContainer = styled.div`
 
 const PostViewModal = ({ activePost, setPosts, setModalOpened }) => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth);
+
+  const [id, setId] = useState(null);
   const { user_id, post_id } = activePost;
-  const { id } = user;
   const [isEditable, setIsEditable] = useState(false);
   const titleRef = useRef(null);
   const contentRef = useRef(null);
   const img_path = activePost.img_path;
+
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    setId(user.id);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const updatePost = async () => {
     const { error } = await supabase

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -39,7 +39,18 @@ const Nav = styled.nav`
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setIsAuthenticated(user.aud);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const handleNavigation = (path) => {
     if (isAuthenticated) {
@@ -60,7 +71,7 @@ const Sidebar = () => {
     } catch (error) {
       console.error('Error logging out:', error.message);
     }
-  };  
+  };
 
   return (
     <SidebarContainer>

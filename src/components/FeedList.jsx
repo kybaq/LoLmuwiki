@@ -19,41 +19,49 @@ const StSection = styled.section`
 `;
 
 const StDiv = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-rows: 30px 25px 135px;
+  grid-template-columns: 160px 136px;
   flex-direction: column;
   align-self: flex-start;
-  padding: 5px;
-  gap: 5px;
+  gap: 4px;
   font-family: 'Helvetica', sans-serif;
 
   & > :first-child {
+    grid-column: 1 / -1;
     font-size: 20px;
     font-weight: bold;
     top: 0;
     margin: 5px;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    line-clamp: 1;
+    text-overflow: ellipsis;
     white-space: pre-line;
   }
   & > :nth-child(2) {
-    font-size: 13px;
+    grid-column: 2 / 3;
+    font-size: 12px;
     margin: 5px;
+    text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre-line;
   }
   & > :nth-child(3) {
-    font-size: 14px;
+    grid-row: 2 / 4;
+    font-size: 13px;
     line-height: 1.5;
-    margin: 5px;
+    margin-bottom: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
     white-space: pre-line;
+  }
+  & > :nth-child(4) {
+    grid-row: 3 / 4;
+    margin: auto;
   }
 `;
 
@@ -148,12 +156,12 @@ const FeedList = () => {
               <h3>{item.title}</h3>
               <span>by {item.nickname}</span>
               <p>{item.content}</p>
+              <img
+                style={{ width: '100px' }}
+                src={item.img_path[0] ? item.img_path[0].data.publicUrl : ''}
+                alt=""
+              />
             </StDiv>
-            <img
-              style={{ width: '100px' }}
-              src={item.img_path[0] ? item.img_path[0].data.publicUrl : ''}
-              alt=""
-            />
           </StLink>
         ))}
       </StSection>

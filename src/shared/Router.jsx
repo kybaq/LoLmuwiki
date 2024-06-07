@@ -11,12 +11,14 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route path="detail/:id" element={<PostViewModal />} />          
+          <Route path="/detail/:id" element={<PostViewModal />} />
         </Route>
-        <Route path="post" element={<Post />} />        
+        <Route path="/post" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myposts" element={<MyPosts />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/reset" element={<ResetPassword />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/*" element={<Home />}></Route>
       </Routes>
     </BrowserRouter>
   );

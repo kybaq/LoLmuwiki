@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import AccountInfoItem from './AccountInfoItem';
 import ProfilePicture from './ProfilePicture';
+import { supabase } from '../shared/supabaseClient';
 
 const AccountInfoContainer = styled.div`
   display: flex;
@@ -13,7 +14,23 @@ const AccountInfoContainer = styled.div`
 `;
 
 const AccountInfo = () => {
-  const { email, full_name } = useSelector((state) => state.auth);
+  const [email, setEmail] = useState(null);
+  const [full_name, setFull_name] = useState(null);
+
+  const getUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+
+    setEmail(user.email);
+    setFull_name(user.user_metadata.full_name);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <AccountInfoContainer>
